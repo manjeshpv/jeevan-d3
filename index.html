@@ -1,119 +1,130 @@
 <!DOCTYPE html>
-<html ng-app="MachineApp"> 
+<html ng-app="MachineApp">
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>Dashboard</title>
-<meta name="description" content="An interactive getting started guide for Brackets.">
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/font-awesome.min.css"> 
-<link rel="stylesheet" href="styles_menu.css">
-<link rel="stylesheet" href="css/circle.css">
-<script src='http://code.jquery.com/jquery-2.2.1.min.js'></script>  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Dashboard</title>
+    <meta name="description" content="An interactive getting started guide for Brackets.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="styles_menu.css">
+    <link rel="stylesheet" href="css/circle.css">
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+
+    <script src="liquidFillGauge.js"></script>
+    <script src='http://code.jquery.com/jquery-2.2.1.min.js'></script>
     <style>
-        .liquidFillGaugeText { font-family: Helvetica; font-weight: bold; }
+        .liquidFillGaugeText {
+            font-family: Helvetica;
+            font-weight: bold;
+        }
     </style>
-	<style>
-table {
-    table-align:right;
-    width:90%;
-}
-table, th, td {
-    
-    border-collapse: collapse;
-}
-th, td {
-   
-    text-align: center;
-}
-table#t01 tr:nth-child(even) {
-    background-color: #eee;
-}
-table#t01 tr:nth-child(odd) {
-   background-color:#fff;
-}
-table#t01 th	{
-    background-color: black;
-    color: white;
-}
-.popup {
-    width:100%;
-    height:175%;
-    display:none;
-    position:fixed;
-    top:-50px;
-    left:100px;
-    background:rgba(0,0,0,0.75);
-}
- 
+    <style>
+        table {
+            table-align: right;
+            width: 90%;
+        }
 
-.popup-inner {
-    max-width:950px;
-    width:90%;
-	max-height:950px;
-    padding:40px;
-    position:absolute;
-    top:50%;
-    left:50%;
-    -webkit-transform:translate(-50%, -50%);
-    transform:translate(-50%, -50%);
-    box-shadow:0px 2px 6px rgba(0,0,0,1);
-    border-radius:3px;
-    background:#fff;
-}
- 
+        table, th, td {
 
-.popup-close {
-    width:30px;
-    height:30px;
-    padding-top:4px;
-    display:inline-block;
-    position:absolute;
-    top:0px;
-    right:0px;
-    transition:ease 0.25s all;
-    -webkit-transform:translate(50%, -50%);
-    transform:translate(50%, -50%);
-    border-radius:1000px;
-    background:rgba(0,0,0,0.8);
-    font-family:Arial, Sans-Serif;
-    font-size:20px;
-    text-align:center;
-    line-height:100%;
-    color:#fff;
-}
- 
-.popup-close:hover {
-    -webkit-transform:translate(50%, -50%) rotate(180deg);
-    transform:translate(50%, -50%) rotate(180deg);
-    background:rgba(0,0,0,1);
-    text-decoration:none;
-}
-.highcharts-container{
-margin-left: 43px;
-}
- </style>
-<script src='js/bootstrap.min.js'></script>
-<script src="lib/angular.js"></script>
+            border-collapse: collapse;
+        }
 
-<script type="text/javascript">
-$(function () {
-$('.navbar-toggle-sidebar').click(function () {
-$('.navbar-nav').toggleClass('slide-in');
-$('.side-body').toggleClass('body-slide-in');
-$('#search').removeClass('in').addClass('collapse').slideUp(200);
-});
+        th, td {
 
-$('#search-trigger').click(function () {
-$('.navbar-nav').removeClass('slide-in');
-$('.side-body').removeClass('body-slide-in');
-$('.search-input').focus();
-});
-});   
-</script>
-<script>
-$(document).ready(function() {
+            text-align: center;
+        }
+
+        table#t01 tr:nth-child(even) {
+            background-color: #eee;
+        }
+
+        table#t01 tr:nth-child(odd) {
+            background-color: #fff;
+        }
+
+        table#t01 th {
+            background-color: black;
+            color: white;
+        }
+
+        .popup {
+            width: 100%;
+            height: 175%;
+            display: none;
+            position: fixed;
+            top: -50px;
+            left: 100px;
+            background: rgba(0, 0, 0, 0.75);
+        }
+
+        .popup-inner {
+            max-width: 950px;
+            width: 90%;
+            max-height: 950px;
+            padding: 40px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 1);
+            border-radius: 3px;
+            background: #fff;
+        }
+
+        .popup-close {
+            width: 30px;
+            height: 30px;
+            padding-top: 4px;
+            display: inline-block;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            transition: ease 0.25s all;
+            -webkit-transform: translate(50%, -50%);
+            transform: translate(50%, -50%);
+            border-radius: 1000px;
+            background: rgba(0, 0, 0, 0.8);
+            font-family: Arial, Sans-Serif;
+            font-size: 20px;
+            text-align: center;
+            line-height: 100%;
+            color: #fff;
+        }
+
+        .popup-close:hover {
+            -webkit-transform: translate(50%, -50%) rotate(180deg);
+            transform: translate(50%, -50%) rotate(180deg);
+            background: rgba(0, 0, 0, 1);
+            text-decoration: none;
+        }
+
+        .highcharts-container {
+            margin-left: 43px;
+        }
+    </style>
+    <script src='js/bootstrap.min.js'></script>
+    <script src="lib/angular.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('.navbar-toggle-sidebar').click(function () {
+                $('.navbar-nav').toggleClass('slide-in');
+                $('.side-body').toggleClass('body-slide-in');
+                $('#search').removeClass('in').addClass('collapse').slideUp(200);
+            });
+
+            $('#search-trigger').click(function () {
+                $('.navbar-nav').removeClass('slide-in');
+                $('.side-body').removeClass('body-slide-in');
+                $('.search-input').focus();
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
 // $('#dd').show();
 // $('#pp').hide();
 // $('#gg').hide();
@@ -122,15 +133,14 @@ $(document).ready(function() {
 // $('#gg1').hide();
 
 
+            $('#dd').hide();
+            $('#pp').show();
+            $('#gg').hide();
+            $('#dd1').hide();
+            $('#pp1').show();
+            $('#gg1').hide();
 
-$('#dd').hide();
-$('#pp').show();
-$('#gg').hide();
-$('#dd1').hide();
-$('#pp1').show();
-$('#gg1').hide();
-
-$("#dd-page").click(function() {
+            $("#dd-page").click(function () {
 // $('#dd').show();
 // $('#pp').hide();
 // $('#gg').hide();
@@ -138,115 +148,120 @@ $("#dd-page").click(function() {
 // $('#pp1').hide();
 // $('#gg1').hide();
 
-$('#dd').hide();
-$('#pp').show();
-$('#gg').hide();
-$('#dd1').hide();
-$('#pp1').show();
-$('#gg1').hide();
-});
-$("#pp-page").click(function() {
-$('#dd').hide();
-$('#pp').show();
-$('#gg').hide();
-$('#dd1').hide();
-$('#pp1').show();
-$('#gg1').hide();
-});
-$("#gg-page").click(function() {
-$('#dd').hide();
-$('#pp').hide();
-$('#gg').show();
-$('#dd1').hide();
-$('#pp1').hide();
-$('#gg1').show();
-});
-});
-</script>
+                $('#dd').hide();
+                $('#pp').show();
+                $('#gg').hide();
+                $('#dd1').hide();
+                $('#pp1').show();
+                $('#gg1').hide();
+            });
+            $("#pp-page").click(function () {
+                $('#dd').hide();
+                $('#pp').show();
+                $('#gg').hide();
+                $('#dd1').hide();
+                $('#pp1').show();
+                $('#gg1').hide();
+            });
+            $("#gg-page").click(function () {
+                $('#dd').hide();
+                $('#pp').hide();
+                $('#gg').show();
+                $('#dd1').hide();
+                $('#pp1').hide();
+                $('#gg1').show();
+            });
+        });
+    </script>
 </head>
 <body ng-controller="machineController">
 
-<div class="col-md-12 col-sm-12 col-xs-12 header" style="margin-top:-32px; background: url("images/Header_Ribbon.png");">
+<div class="col-md-12 col-sm-12 col-xs-12 header" style="margin-top:-32px; background: url(" images
+/Header_Ribbon.png");">
 <div class="container-fluid">
-<div class="col-md-6 logo">
-<h2>HITACHI &nbsp;Anomaly D2P</h2>
-</div>
-<div class="col-md-6 sub-logo">
+    <div class="col-md-6 logo">
+        <h2>HITACHI &nbsp;Anomaly D2P</h2>
+    </div>
+    <div class="col-md-6 sub-logo">
 
+    </div>
 </div>
-</div>  
-</div>       
+</div>
 
 <!--<nav class="col-md-12 col-xs-12 col-sm-12 navbar navbar-default second-nav-bar" role="navigation" style="margin-bottom: 0px;background: #fff;border-bottom:0px;
 padding-left:0px;padding-right:0px;">-->
 <div class="container">
-<!-- Brand and toggle get grouped for better mobile display -->
-<div class="navbar-header">
-<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-slide-dropdown">
-	<span class="sr-only">Toggle navigation</span>
-	<span class="icon-bar"></span>
-	<span class="icon-bar"></span>
-	<span class="icon-bar"></span>
-</button>
-</div>
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-slide-dropdown">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+    </div>
 
-<!-- Collect the nav links, forms, and other content for toggling -->
-<!-- 	<div class="collapse navbar-collapse" id="bs-slide-dropdown">
-<ul class="nav navbar-nav main-menu">
-	<li class="dropdown main-menu-list">
-		<a href="#" class="dropdown-toggle" data-toggle="dropdown">File <span class="caret"></span></a>				
-		<ul class="dropdown-menu d-ner" role="menu">
-			<li><a href="#">Action</a></li>
-			<li><a href="#">Another action</a></li>
-			<li><a href="#">Something else here</a></li>
-			<li class="divider"></li>
-			<li><a href="#">Separated link</a></li>
-		</ul>                
-	</li>
-	<li class="dropdown main-menu-list">
-		<a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools <span class="caret"></span></a>				
-		<ul class="dropdown-menu d-ner" role="menu">
-			<li><a href="#">Action</a></li>
-			<li><a href="#">Another action</a></li>
-			<li><a href="#">Something else here</a></li>
-			<li class="divider"></li>
-			<li><a href="#">Separated link</a></li>
-		</ul>                
-	</li>
-	<li class="dropdown main-menu-list">
-		<a href="#" class="dropdown-toggle" data-toggle="dropdown">Help <span class="caret"></span></a>				
-		<ul class="dropdown-menu d-ner" role="menu">
-			<li><a href="#">Action</a></li>
-			<li><a href="#">Another action</a></li>
-			<li><a href="#">Something else here</a></li>
-			<li class="divider"></li>
-			<li><a href="#">Separated link</a></li>
-		</ul>                
-	</li>
-</ul>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <!-- 	<div class="collapse navbar-collapse" id="bs-slide-dropdown">
+    <ul class="nav navbar-nav main-menu">
+        <li class="dropdown main-menu-list">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">File <span class="caret"></span></a>
+            <ul class="dropdown-menu d-ner" role="menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+            </ul>
+        </li>
+        <li class="dropdown main-menu-list">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools <span class="caret"></span></a>
+            <ul class="dropdown-menu d-ner" role="menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+            </ul>
+        </li>
+        <li class="dropdown main-menu-list">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Help <span class="caret"></span></a>
+            <ul class="dropdown-menu d-ner" role="menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+            </ul>
+        </li>
+    </ul>
 
-<ul class="nav navbar-nav navbar-right main-menu">
-	<li class="log-text">Logged in as&nbsp;</li>
-	<li><a href="#"><button type="button" class="btn btn-primary btn-xs">Logout</button></a></li>
-</ul>
-</div> --><!-- /.navbar-collapse -->
+    <ul class="nav navbar-nav navbar-right main-menu">
+        <li class="log-text">Logged in as&nbsp;</li>
+        <li><a href="#"><button type="button" class="btn btn-primary btn-xs">Logout</button></a></li>
+    </ul>
+    </div> --><!-- /.navbar-collapse -->
 </div><!-- /.container-fluid -->
-</nav>        
+</nav>
 
 
 <!--neer menu  -->
 <div class="container-fluid">
-<div class="row">
-<div>
+    <div class="row">
+        <div>
 
-<!-- Nav tabs -->
-<ul class="nav nav-tabs" role="tablist">
-	<li role="presentation" class="active" id="dd-page"><a href="#homes" aria-controls="home" role="tab" data-toggle="tab">Dashboard</a></li>
-	<li role="presentation" id="gg-page"><a href="#profiles" aria-controls="profile" role="tab" data-toggle="tab">Predictive Maintenance</a></li>
-	<li role="presentation" id="gg-page"><a href="#profiles" aria-controls="profile" role="tab" data-toggle="tab">Performance Analysis</a></li>
-	<li role="presentation"><a href="#settingss" aria-controls="settings" role="tab" data-toggle="tab">Verify</a></li>
-<!-- 	<li role="presentation"><a href="#settingss" aria-controls="settings" role="tab" data-toggle="tab">Administration</a></li> -->
-<i class="fa fa-user" style="
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active" id="dd-page"><a href="#homes" aria-controls="home" role="tab"
+                                                                       data-toggle="tab">Dashboard</a></li>
+                <li role="presentation" id="gg-page"><a href="#profiles" aria-controls="profile" role="tab"
+                                                        data-toggle="tab">Predictive Maintenance</a></li>
+                <li role="presentation" id="gg-page"><a href="#profiles" aria-controls="profile" role="tab"
+                                                        data-toggle="tab">Performance Analysis</a></li>
+                <li role="presentation"><a href="#settingss" aria-controls="settings" role="tab" data-toggle="tab">Verify</a>
+                </li>
+                <!-- 	<li role="presentation"><a href="#settingss" aria-controls="settings" role="tab" data-toggle="tab">Administration</a></li> -->
+                <i class="fa fa-user" style="
     font-size: 17px;
     color: white;
     float: right;
@@ -254,7 +269,7 @@ padding-left:0px;padding-right:0px;">-->
     top: 17px;
     position: relative;
 "></i>
-<i class="fa fa-question-circle" style="
+                <i class="fa fa-question-circle" style="
     font-size: 17px;
     color: white;
     float: right;
@@ -263,632 +278,710 @@ padding-left:0px;padding-right:0px;">-->
     position: relative;
 "></i>
 
-</ul>
+            </ul>
 
-<!-- Tab panes -->
-<div class="tab-content">
-	<!--<div role="tabpanel" class="tab-pane active" id="home">-->
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <!--<div role="tabpanel" class="tab-pane active" id="home">-->
 
-		<!-- down       -->
-		<nav class="navbar navbar-default navbar-static-top">
-			<div class="container">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle navbar-toggle-sidebar collapsed">
-						MENU
-					</button>
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-<!--
-<a class="navbar-brand" href="#">
-Administrator
-</a>
--->
-</div>
+                <!-- down       -->
+                <nav class="navbar navbar-default navbar-static-top">
+                    <div class="container">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle navbar-toggle-sidebar collapsed">
+                                MENU
+                            </button>
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                    data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <!--
+                            <a class="navbar-brand" href="#">
+                            Administrator
+                            </a>
+                            -->
+                        </div>
 
-<!-- Collect the nav links, forms, and other content for toggling -->
-<!--<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">      
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <!--<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-<form class="navbar-form navbar-left" method="GET" role="search">
-<div class="form-group">
-	<input type="text" name="q" class="form-control" placeholder="Search">
-</div>
-<button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
-</form>
--->
-<!--<ul class="nav navbar-nav navbar-right">
-<li class="follow-text">follow us: </li>
-<li class="social-icons"><a target="_blank" href="https://www.facebook.com/telematics4u" class="s-icons fa fa-facebook"></a></li>
-<li class="social-icons"><a target="_blank" href="https://twitter.com/telematics4u" class="s-icons fa fa-twitter"></a></li>
-<li class="social-icons"><a target="_blank" href="https://plus.google.com/107277073063762090502/about" class="s-icons fa fa-google-plus"></a>
-</li>		
-</ul>-->
-</div><!-- /.navbar-collapse -->
-</div><!-- /.container-fluid -->
-</nav>  	<div class="container-fluid main-container">
+                        <form class="navbar-form navbar-left" method="GET" role="search">
+                        <div class="form-group">
+                            <input type="text" name="q" class="form-control" placeholder="Search">
+                        </div>
+                        <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
+                        </form>
+                        -->
+                        <!--<ul class="nav navbar-nav navbar-right">
+                        <li class="follow-text">follow us: </li>
+                        <li class="social-icons"><a target="_blank" href="https://www.facebook.com/telematics4u" class="s-icons fa fa-facebook"></a></li>
+                        <li class="social-icons"><a target="_blank" href="https://twitter.com/telematics4u" class="s-icons fa fa-twitter"></a></li>
+                        <li class="social-icons"><a target="_blank" href="https://plus.google.com/107277073063762090502/about" class="s-icons fa fa-google-plus"></a>
+                        </li>
+                        </ul>-->
+                    </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+            </nav>
+            <div class="container-fluid main-container">
 
-<!-- 
-<div id='cssmenu'>
-<ul>
-<li><a style="background:url('images/v6 - red.gif');" href='#'><span>Company</span></a></li>
-<li><a style="background:url('images/v6 - red.gif');" href='#'><span>Contact</span></a></li>
-<li><a style="background:url('images/v6 - red.gif');" href='#'><span>Contact</span></a></li>
-<li><a style="background:url('images/v6 - orange.gif');" href='#'><span>Products</span></a></li>
-<li><a style="background:url('images/v6 - orange.gif');" href='#'><span>Products</span></a></li>
-<li><a style="background:url('images/v6 - orange.gif');" href='#'><span>Products</span></a></li>
-<li><a style="background:url('images/v6 - green.gif');" href='#'><span>Home</span></a></li>
-<li><a style="background:url('images/v6 - green.gif');" href='#'><span>Home</span></a></li>
-<li><a style="background:url('images/v6 - green.gif');" href='#'><span>Home</span></a></li>
+                <!--
+                <div id='cssmenu'>
+                <ul>
+                <li><a style="background:url('images/v6 - red.gif');" href='#'><span>Company</span></a></li>
+                <li><a style="background:url('images/v6 - red.gif');" href='#'><span>Contact</span></a></li>
+                <li><a style="background:url('images/v6 - red.gif');" href='#'><span>Contact</span></a></li>
+                <li><a style="background:url('images/v6 - orange.gif');" href='#'><span>Products</span></a></li>
+                <li><a style="background:url('images/v6 - orange.gif');" href='#'><span>Products</span></a></li>
+                <li><a style="background:url('images/v6 - orange.gif');" href='#'><span>Products</span></a></li>
+                <li><a style="background:url('images/v6 - green.gif');" href='#'><span>Home</span></a></li>
+                <li><a style="background:url('images/v6 - green.gif');" href='#'><span>Home</span></a></li>
+                <li><a style="background:url('images/v6 - green.gif');" href='#'><span>Home</span></a></li>
 
-</ul>
-</div>
--->
-<div class="col-md-2 sidebar">
-<div class="row">
-<!-- uncomment code for absolute positioning tweek see top comment in css -->
-<div class="absolute-wrapper"> </div>
-<!-- Menu -->
-<!-- load css menu here -->
-
-
-
-
-<div class="side-menu" id="dd">
-<form class="form-inline">
-<!--
-<div class="form-group search-box">
-<label>Search</label>
-<input class="form-control1" placeholder="" type="text">
-</div>
--->
-</form>
-<!-- 
-<nav class="navbar navbar-default nav-side" role="navigation">
-
-<div style=" font-size:17px;font-weight:bold;" class="side-menu-container">
-<div style="border: 3px solid rgba(255, 0, 0, 0.68);color:white;padding:5px;padding-left:10px;">
+                </ul>
+                </div>
+                -->
+                <div class="col-md-2 sidebar">
+                    <div class="row">
+                        <!-- uncomment code for absolute positioning tweek see top comment in css -->
+                        <div class="absolute-wrapper"></div>
+                        <!-- Menu -->
+                        <!-- load css menu here -->
 
 
+                        <div class="side-menu" id="dd">
+                            <form class="form-inline">
+                                <!--
+                                <div class="form-group search-box">
+                                <label>Search</label>
+                                <input class="form-control1" placeholder="" type="text">
+                                </div>
+                                -->
+                            </form>
+                            <!--
+                            <nav class="navbar navbar-default nav-side" role="navigation">
 
-
-<p><a style="color:red;"href="#" class="crit-color alternate_menu"> Plant A</a><p><br/>
-<p><a style="color:red;"href="#" class="crit-color"> Plant M</a><p><br/>
-<p><a style="color:red;"href="#" class="crit-color"> Plant N</a><p><br/>
-</div>
-<div style="border: 3px solid rgba(255, 165, 0, 0.75);color:white;padding:5px;padding-left:10px;">	
-<a style="color:orange;" href="#" class="crit-color"> Plant C</a><br/>
-<a style="color:orange;" href="#" class="crit-color"> Plant D</a><br/>
-<a style="color:orange;" href="#" class="crit-color"> Plant E</a><br/>
-</div>
-<div style="border: 3px solid rgba(0, 128, 0, 0.75);color:white;padding:5px;padding-left:10px;">			
-<a style="color:green;" href="#" class="crit-color"> Plant G</a><br/>
-<a style="color:green;" href="#" class="crit-color"> Plant H</a><br/>
-<a style="color:green;" href="#" class="crit-color"> Plant I</a><br/>
-</div>
-
-</div>
-</nav> -->
-
-<nav class="navbar navbar-default nav-side custom_dashboard_menu" style="height: 541px;background: #252525;"role="navigation">
-<!-- Main Menu -->
-<div class="side-menu-container">
-<ul style="border:none;" class="nav navbar-nav nav-list1">
-<li><a id="gg-page" class="alternate_menu"> Plant A<img src="images/red.png" style="width: 16px;float: right;"></a></li>
-<li class="active"><a id="gg-page"> Plant B<img src="images/red.png" style="width: 16px;float: right;"></a></li>
-<li class="active"><a id="gg-page"> Plant C<img src="images/red.png" style="width: 16px;float: right;"></a></li><hr/>
-<li class="active"><a id="gg-page"> Plant D<img src="images/orange.png" style="width: 16px;float: right;"></a></li>
-<li class="active"><a id="gg-page"> Plant E<img src="images/orange.png" style="width: 16px;float: right;"></a></li>
-<li class="active"><a id="gg-page"> Plant F<img src="images/green.pn" style="width: 16px;float: right;"></a></li><hr/>
-<li class="active"><a id="gg-page"> Plant G<img src="images/green.pn" style="width: 16px;float: right;"></a></li>
-<li class="active"><a id="gg-page"> Plant H<img src="images/green.pn" style="width: 16px;float: right;"></a></li>
-<li class="active"><a id="gg-page"> Plant I<img src="images/green.pn" style="width: 16px;float: right;"></a></li>
-
-</ul>
-</div><!-- /.navbar-collapse -->
-</nav>
-
-</div>
+                            <div style=" font-size:17px;font-weight:bold;" class="side-menu-container">
+                            <div style="border: 3px solid rgba(255, 0, 0, 0.68);color:white;padding:5px;padding-left:10px;">
 
 
 
 
+                            <p><a style="color:red;"href="#" class="crit-color alternate_menu"> Plant A</a><p><br/>
+                            <p><a style="color:red;"href="#" class="crit-color"> Plant M</a><p><br/>
+                            <p><a style="color:red;"href="#" class="crit-color"> Plant N</a><p><br/>
+                            </div>
+                            <div style="border: 3px solid rgba(255, 165, 0, 0.75);color:white;padding:5px;padding-left:10px;">
+                            <a style="color:orange;" href="#" class="crit-color"> Plant C</a><br/>
+                            <a style="color:orange;" href="#" class="crit-color"> Plant D</a><br/>
+                            <a style="color:orange;" href="#" class="crit-color"> Plant E</a><br/>
+                            </div>
+                            <div style="border: 3px solid rgba(0, 128, 0, 0.75);color:white;padding:5px;padding-left:10px;">
+                            <a style="color:green;" href="#" class="crit-color"> Plant G</a><br/>
+                            <a style="color:green;" href="#" class="crit-color"> Plant H</a><br/>
+                            <a style="color:green;" href="#" class="crit-color"> Plant I</a><br/>
+                            </div>
 
-<div class="side-menu" id="pp">
-<form class="form-inline">
-<!--
-<div class="form-group search-box">
-<label>Search</label>
-<input class="form-control1" placeholder="" type="text">
-</div>
--->
-</form>
+                            </div>
+                            </nav> -->
 
-<!-- <nav class="navbar navbar-default nav-side custom_dashboard_menu" role="navigation">
+                            <nav class="navbar navbar-default nav-side custom_dashboard_menu"
+                                 style="height: 541px;background: #252525;" role="navigation">
+                                <!-- Main Menu -->
+                                <div class="side-menu-container">
+                                    <ul style="border:none;" class="nav navbar-nav nav-list1">
+                                        <li><a id="gg-page" class="alternate_menu"> Plant A<img src="images/red.png"
+                                                                                                style="width: 16px;float: right;"></a>
+                                        </li>
+                                        <li class="active"><a id="gg-page"> Plant B<img src="images/red.png"
+                                                                                        style="width: 16px;float: right;"></a>
+                                        </li>
+                                        <li class="active"><a id="gg-page"> Plant C<img src="images/red.png"
+                                                                                        style="width: 16px;float: right;"></a>
+                                        </li>
+                                        <hr/>
+                                        <li class="active"><a id="gg-page"> Plant D<img src="images/orange.png"
+                                                                                        style="width: 16px;float: right;"></a>
+                                        </li>
+                                        <li class="active"><a id="gg-page"> Plant E<img src="images/orange.png"
+                                                                                        style="width: 16px;float: right;"></a>
+                                        </li>
+                                        <li class="active"><a id="gg-page"> Plant F<img src="images/green.pn"
+                                                                                        style="width: 16px;float: right;"></a>
+                                        </li>
+                                        <hr/>
+                                        <li class="active"><a id="gg-page"> Plant G<img src="images/green.pn"
+                                                                                        style="width: 16px;float: right;"></a>
+                                        </li>
+                                        <li class="active"><a id="gg-page"> Plant H<img src="images/green.pn"
+                                                                                        style="width: 16px;float: right;"></a>
+                                        </li>
+                                        <li class="active"><a id="gg-page"> Plant I<img src="images/green.pn"
+                                                                                        style="width: 16px;float: right;"></a>
+                                        </li>
 
-<div style=" font-size:17px;font-weight:bold;" class="side-menu-container">
-<div style="border: 3px solid rgba(255, 0, 0, 0.68);color:white;padding:5px;padding-left:10px;">
+                                    </ul>
+                                </div><!-- /.navbar-collapse -->
+                            </nav>
 
-<a style="color:red;"href="#" class="crit-color alternate_menu"> Plant A</a><br/>
-<a style="color:red;"href="#" class="crit-color" id="gg-page"> Plant M</a><br/>
-<a style="color:red;"href="#" class="crit-color" id="gg-page"> Plant N</a><br/>
-</div>
-<div style="border: 3px solid rgba(255, 165, 0, 0.75);color:white;padding:5px;padding-left:10px;">	
-<a style="color:orange;" href="#" class="crit-color"> Plant C</a><br/>
-<a style="color:orange;" href="#" class="crit-color"> Plant D</a><br/>
-<a style="color:orange;" href="#" class="crit-color"> Plant E</a><br/>
-</div>
-<div style="border: 3px solid rgba(0, 128, 0, 0.75);color:white;padding:5px;padding-left:10px;">			
-<a style="color:green;" href="#" class="crit-color"> Plant G</a><br/>
-<a style="color:green;" href="#" class="crit-color"> Plant H</a><br/>
-<a style="color:green;" href="#" class="crit-color"> Plant I</a><br/>
-</div>
+                        </div>
 
-</div> 
-</nav>
 
--->
-<nav class="navbar navbar-default nav-side custom_dashboard_menu" style="height: 541px;background: #252525;"role="navigation">
-<!-- Main Menu -->
-<div class="side-menu-container">
-<ul style="border:none;" class="nav navbar-nav nav-list1">
-<li class="active"><a id="gg-page" class="alternate_menu"> Plant A<img src="http://www.clker.com/cliparts/T/G/b/7/r/A/red-dot-md.png" style="width: 16px;float: right;"></a></li>
-<li class="active"><a id="gg-page"> Plant B<img src="http://www.clker.com/cliparts/T/G/b/7/r/A/red-dot-md.png" style="width: 16px;float: right;"></a></li>
-<li class="active"><a id="gg-page"> Plant C<img src="http://www.clker.com/cliparts/T/G/b/7/r/A/red-dot-md.png" style="width: 16px;float: right;"></a></li>
-<hr/>
-<li class="active"><a id="gg-page"> Plant D<img src="http://www.clker.com/cliparts/m/I/n/1/T/P/orange-dot-md.png" style="width: 16px;float: right;"></a></li>
-<li class="active"><a id="gg-page"> Plant E<img src="http://www.clker.com/cliparts/m/I/n/1/T/P/orange-dot-md.png" style="width: 16px;float: right;"></a></li>
-<li class="active"><a id="gg-page"> Plant F<img src="http://www.clker.com/cliparts/m/I/n/1/T/P/orange-dot-md.png" style="width: 16px;float: right;"></a></li>
-<hr/>
-<li class="active"><a id="gg-page"> Plant G<img src="http://lenalibrary.org/news/wp-content/uploads/2015/10/neon-green-dot-hi.png" style="width: 16px;float: right;"></a></li>
-<li class="active"><a id="gg-page"> Plant H<img src="http://lenalibrary.org/news/wp-content/uploads/2015/10/neon-green-dot-hi.png" style="width: 16px;float: right;"></a></li>
-<li class="active"><a id="gg-page"> Plant I<img src="http://lenalibrary.org/news/wp-content/uploads/2015/10/neon-green-dot-hi.png" style="width: 16px;float: right;"></a></li>
+                        <div class="side-menu" id="pp">
+                            <form class="form-inline">
+                                <!--
+                                <div class="form-group search-box">
+                                <label>Search</label>
+                                <input class="form-control1" placeholder="" type="text">
+                                </div>
+                                -->
+                            </form>
 
-</ul>
-</div><!-- /.navbar-collapse -->
-</nav>
+                            <!-- <nav class="navbar navbar-default nav-side custom_dashboard_menu" role="navigation">
 
-</div> 
+                            <div style=" font-size:17px;font-weight:bold;" class="side-menu-container">
+                            <div style="border: 3px solid rgba(255, 0, 0, 0.68);color:white;padding:5px;padding-left:10px;">
 
-<div class="side-menu" id="gg">
+                            <a style="color:red;"href="#" class="crit-color alternate_menu"> Plant A</a><br/>
+                            <a style="color:red;"href="#" class="crit-color" id="gg-page"> Plant M</a><br/>
+                            <a style="color:red;"href="#" class="crit-color" id="gg-page"> Plant N</a><br/>
+                            </div>
+                            <div style="border: 3px solid rgba(255, 165, 0, 0.75);color:white;padding:5px;padding-left:10px;">
+                            <a style="color:orange;" href="#" class="crit-color"> Plant C</a><br/>
+                            <a style="color:orange;" href="#" class="crit-color"> Plant D</a><br/>
+                            <a style="color:orange;" href="#" class="crit-color"> Plant E</a><br/>
+                            </div>
+                            <div style="border: 3px solid rgba(0, 128, 0, 0.75);color:white;padding:5px;padding-left:10px;">
+                            <a style="color:green;" href="#" class="crit-color"> Plant G</a><br/>
+                            <a style="color:green;" href="#" class="crit-color"> Plant H</a><br/>
+                            <a style="color:green;" href="#" class="crit-color"> Plant I</a><br/>
+                            </div>
 
-<!-- 	<nav class="navbar navbar-default nav-side custom_dashboard_menu1" role="navigation">
-<div style=" font-size:17px;font-weight:bold;" class="side-menu-container">
-<div style="border: 3px solid rgba(255, 0, 0, 0.68);color:white;padding:5px;padding-left:10px;">
-<a style="color:red;"href="#" class="crit-color alternate_menu"> Plant A</a><br/>
-<a style="color:red;"href="#" class="crit-color"> Plant M</a><br/>
-<a style="color:red;"href="#" class="crit-color"> Plant N</a><br/>
-</div>
-<div style="border: 3px solid rgba(255, 165, 0, 0.75);color:white;padding:5px;padding-left:10px;">	
-<a style="color:orange;" href="#" class="crit-color"> Plant C</a><br/>
-<a style="color:orange;" href="#" class="crit-color"> Plant D</a><br/>
-<a style="color:orange;" href="#" class="crit-color"> Plant E</a><br/>
-</div>
-<div style="border: 3px solid rgba(0, 128, 0, 0.75);color:white;padding:5px;padding-left:10px;">			
-<a style="color:green;" href="#" class="crit-color"> Plant G</a><br/>
-<a style="color:green;" href="#" class="crit-color"> Plant H</a><br/>
-<a style="color:green;" href="#" class="crit-color"> Plant I</a><br/>
-</div>
+                            </div>
+                            </nav>
 
-</div>
-</nav>
--->
-<nav class="navbar navbar-default nav-side custom_dashboard_menu" style="height: 541px;background: #252525;"role="navigation">
-<!-- Main Menu -->
-<div class="side-menu-container">
-<ul style="border:none;" class="nav navbar-nav nav-list1">
-<li class="active"><a id="gg-page" class="alternate_menu"> Plant A<img src="http://www.clker.com/cliparts/T/G/b/7/r/A/red-dot-md.png" style="width: 16px;float: right;"></a></li>
-<li class="active"><a id="gg-page"> Plant B<img src="http://www.clker.com/cliparts/T/G/b/7/r/A/red-dot-md.png" style="width: 16px;float: right;"></a></li>
-<li class="active"><a id="gg-page"> Plant C<img src="http://www.clker.com/cliparts/T/G/b/7/r/A/red-dot-md.png" style="width: 16px;float: right;"></a></li><hr/>
-<li class="active"><a id="gg-page"> Plant D<img src="http://www.clker.com/cliparts/m/I/n/1/T/P/orange-dot-md.png" style="width: 16px;float: right;"></a></li>
-<li class="active"><a id="gg-page"> Plant E<img src="http://www.clker.com/cliparts/m/I/n/1/T/P/orange-dot-md.png" style="width: 16px;float: right;"></a></li>
-<li class="active"><a id="gg-page"> Plant F<img src="http://lenalibrary.org/news/wp-content/uploads/2015/10/neon-green-dot-hi.png" style="width: 16px;float: right;"></a></li><hr/>
-<li class="active"><a id="gg-page"> Plant G<img src="http://lenalibrary.org/news/wp-content/uploads/2015/10/neon-green-dot-hi.png" style="width: 16px;float: right;"></a></li>
-<li class="active"><a id="gg-page"> Plant H<img src="http://lenalibrary.org/news/wp-content/uploads/2015/10/neon-green-dot-hi.png" style="width: 16px;float: right;"></a></li>
-<li class="active"><a id="gg-page"> Plant I<img src="http://lenalibrary.org/news/wp-content/uploads/2015/10/neon-green-dot-hi.png" style="width: 16px;float: right;"></a></li>
+                            -->
+                            <nav class="navbar navbar-default nav-side custom_dashboard_menu"
+                                 style="height: 541px;background: #252525;" role="navigation">
+                                <!-- Main Menu -->
+                                <div class="side-menu-container">
+                                    <ul style="border:none;" class="nav navbar-nav nav-list1">
+                                        <li class="active"><a id="gg-page" class="alternate_menu"> Plant A<img
+                                                src="http://www.clker.com/cliparts/T/G/b/7/r/A/red-dot-md.png"
+                                                style="width: 16px;float: right;"></a></li>
+                                        <li class="active"><a id="gg-page"> Plant B<img
+                                                src="http://www.clker.com/cliparts/T/G/b/7/r/A/red-dot-md.png"
+                                                style="width: 16px;float: right;"></a></li>
+                                        <li class="active"><a id="gg-page"> Plant C<img
+                                                src="http://www.clker.com/cliparts/T/G/b/7/r/A/red-dot-md.png"
+                                                style="width: 16px;float: right;"></a></li>
+                                        <hr/>
+                                        <li class="active"><a id="gg-page"> Plant D<img
+                                                src="http://www.clker.com/cliparts/m/I/n/1/T/P/orange-dot-md.png"
+                                                style="width: 16px;float: right;"></a></li>
+                                        <li class="active"><a id="gg-page"> Plant E<img
+                                                src="http://www.clker.com/cliparts/m/I/n/1/T/P/orange-dot-md.png"
+                                                style="width: 16px;float: right;"></a></li>
+                                        <li class="active"><a id="gg-page"> Plant F<img
+                                                src="http://www.clker.com/cliparts/m/I/n/1/T/P/orange-dot-md.png"
+                                                style="width: 16px;float: right;"></a></li>
+                                        <hr/>
+                                        <li class="active"><a id="gg-page"> Plant G<img
+                                                src="http://lenalibrary.org/news/wp-content/uploads/2015/10/neon-green-dot-hi.png"
+                                                style="width: 16px;float: right;"></a></li>
+                                        <li class="active"><a id="gg-page"> Plant H<img
+                                                src="http://lenalibrary.org/news/wp-content/uploads/2015/10/neon-green-dot-hi.png"
+                                                style="width: 16px;float: right;"></a></li>
+                                        <li class="active"><a id="gg-page"> Plant I<img
+                                                src="http://lenalibrary.org/news/wp-content/uploads/2015/10/neon-green-dot-hi.png"
+                                                style="width: 16px;float: right;"></a></li>
 
-</ul>
-</div><!-- /.navbar-collapse -->
-</nav>
-</div>
+                                    </ul>
+                                </div><!-- /.navbar-collapse -->
+                            </nav>
 
-</div>  
-</div>
-<div class="col-md-10 content">
-<div class="panel panel-default pd-color" id="dd1">
-<div class="panel-heading">
-Dashboard
-</div>
-<div class="panel-body p-body">
-</div>
-</div>
-<div class="panel panel-default pd-color" id="pp1">
-<!-- <div class="panel-heading">
-Predictive
-</div> -->
-<div class="panel-body p-body-color custom_dashboard table-responsive" style="
+                        </div>
+
+                        <div class="side-menu" id="gg">
+
+                            <!-- 	<nav class="navbar navbar-default nav-side custom_dashboard_menu1" role="navigation">
+                            <div style=" font-size:17px;font-weight:bold;" class="side-menu-container">
+                            <div style="border: 3px solid rgba(255, 0, 0, 0.68);color:white;padding:5px;padding-left:10px;">
+                            <a style="color:red;"href="#" class="crit-color alternate_menu"> Plant A</a><br/>
+                            <a style="color:red;"href="#" class="crit-color"> Plant M</a><br/>
+                            <a style="color:red;"href="#" class="crit-color"> Plant N</a><br/>
+                            </div>
+                            <div style="border: 3px solid rgba(255, 165, 0, 0.75);color:white;padding:5px;padding-left:10px;">
+                            <a style="color:orange;" href="#" class="crit-color"> Plant C</a><br/>
+                            <a style="color:orange;" href="#" class="crit-color"> Plant D</a><br/>
+                            <a style="color:orange;" href="#" class="crit-color"> Plant E</a><br/>
+                            </div>
+                            <div style="border: 3px solid rgba(0, 128, 0, 0.75);color:white;padding:5px;padding-left:10px;">
+                            <a style="color:green;" href="#" class="crit-color"> Plant G</a><br/>
+                            <a style="color:green;" href="#" class="crit-color"> Plant H</a><br/>
+                            <a style="color:green;" href="#" class="crit-color"> Plant I</a><br/>
+                            </div>
+
+                            </div>
+                            </nav>
+                            -->
+                            <nav class="navbar navbar-default nav-side custom_dashboard_menu"
+                                 style="height: 541px;background: #252525;" role="navigation">
+                                <!-- Main Menu -->
+                                <div class="side-menu-container">
+                                    <ul style="border:none;" class="nav navbar-nav nav-list1">
+                                        <li class="active"><a id="gg-page" class="alternate_menu"> Plant A<img
+                                                src="http://www.clker.com/cliparts/T/G/b/7/r/A/red-dot-md.png"
+                                                style="width: 16px;float: right;"></a></li>
+                                        <li class="active"><a id="gg-page"> Plant B<img
+                                                src="http://www.clker.com/cliparts/T/G/b/7/r/A/red-dot-md.png"
+                                                style="width: 16px;float: right;"></a></li>
+                                        <li class="active"><a id="gg-page"> Plant C<img
+                                                src="http://www.clker.com/cliparts/T/G/b/7/r/A/red-dot-md.png"
+                                                style="width: 16px;float: right;"></a></li>
+                                        <hr/>
+                                        <li class="active"><a id="gg-page"> Plant D<img
+                                                src="http://www.clker.com/cliparts/m/I/n/1/T/P/orange-dot-md.png"
+                                                style="width: 16px;float: right;"></a></li>
+                                        <li class="active"><a id="gg-page"> Plant E<img
+                                                src="http://www.clker.com/cliparts/m/I/n/1/T/P/orange-dot-md.png"
+                                                style="width: 16px;float: right;"></a></li>
+                                        <li class="active"><a id="gg-page"> Plant F<img
+                                                src="http://lenalibrary.org/news/wp-content/uploads/2015/10/neon-green-dot-hi.png"
+                                                style="width: 16px;float: right;"></a></li>
+                                        <hr/>
+                                        <li class="active"><a id="gg-page"> Plant G<img
+                                                src="http://lenalibrary.org/news/wp-content/uploads/2015/10/neon-green-dot-hi.png"
+                                                style="width: 16px;float: right;"></a></li>
+                                        <li class="active"><a id="gg-page"> Plant H<img
+                                                src="http://lenalibrary.org/news/wp-content/uploads/2015/10/neon-green-dot-hi.png"
+                                                style="width: 16px;float: right;"></a></li>
+                                        <li class="active"><a id="gg-page"> Plant I<img
+                                                src="http://lenalibrary.org/news/wp-content/uploads/2015/10/neon-green-dot-hi.png"
+                                                style="width: 16px;float: right;"></a></li>
+
+                                    </ul>
+                                </div><!-- /.navbar-collapse -->
+                            </nav>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-10 content">
+                    <div class="panel panel-default pd-color" id="dd1">
+                        <div class="panel-heading">
+                            Dashboard
+                        </div>
+                        <div class="panel-body p-body">
+                        </div>
+                    </div>
+                    <div class="panel panel-default pd-color" id="pp1">
+                        <!-- <div class="panel-heading">
+                        Predictive
+                        </div> -->
+                        <div class="panel-body p-body-color custom_dashboard table-responsive" style="
 background:#266d17;
 ">
 
-<table style="width: 100%;text-align: center;padding: 10px;color: white;"cellpadding="4" cellspacing="2" border="0" id="table-sparkline" >
-<tr>
-	<td style="font-size:11px;"><span class="glyphicon glyphicon-book"></span><b>&nbsp;ASSET</b></td>
-	<td style="font-size:11px;"><span class="glyphicon glyphicon-book"></span><b>&nbsp;PERFORMANCE</b></td>
-	<td style="font-size:11px;"><span class="glyphicon glyphicon-book"></span><b>&nbsp;EFFICIENCY</b></td>
-	<td style="font-size:11px;"><span class="glyphicon glyphicon-book"></span><b>&nbsp;14-DAY TREND</b></td>
-	<td style="font-size:11px;"><span class="glyphicon glyphicon-book"></span><b>&nbsp;IN ACTION</b></td>     
-</tr>
+                            <table style="width: 100%;text-align: center;padding: 10px;color: white;" cellpadding="4"
+                                   cellspacing="2" border="0" id="table-sparkline">
+                                <tr>
+                                    <td style="font-size:11px;"><span class="glyphicon glyphicon-book"></span><b>&nbsp;ASSET</b>
+                                    </td>
+                                    <td style="font-size:11px;"><span class="glyphicon glyphicon-book"></span><b>&nbsp;PERFORMANCE</b>
+                                    </td>
+                                    <td style="font-size:11px;"><span class="glyphicon glyphicon-book"></span><b>&nbsp;EFFICIENCY</b>
+                                    </td>
+                                    <td style="font-size:11px;"><span class="glyphicon glyphicon-book"></span><b>&nbsp;14-DAY
+                                        TREND</b></td>
+                                    <td style="font-size:11px;"><span class="glyphicon glyphicon-book"></span><b>&nbsp;IN
+                                        ACTION</b></td>
+                                </tr>
 
-<tr ng-repeat="mac in machines">
-	<td width="20%"><a class="alternate_menu"><span style="font-size:11px;"><h6> {{mac}}&nbsp;&nbsp;&nbsp;<img src="http://www.clker.com/cliparts/T/G/b/7/r/A/red-dot-md.png" style="width: 12px;float: right;left: -67px;position: relative;top: 0px;"></h6></span></a></td>
+                                <tr ng-repeat="mac in machines">
+                                    <td width="20%"><a class="alternate_menu"><span style="font-size:11px;"><h6> {{mac}}&nbsp;&nbsp;&nbsp;<img
+                                            src="http://www.clker.com/cliparts/T/G/b/7/r/A/red-dot-md.png"
+                                            style="width: 12px;float: right;left: -67px;position: relative;top: 0px;">
+                                    </h6></span></a></td>
 
-	<td width="20%"> 
-		<div id="aaa" height="150" width="40%" ng-radial-gauge ranges="ranges" value="value" value-unit="unit" precision="precision" lower-limit="lowerLimit" upper-limit="upperLimit">
-		</div>
-	</td>
+                                    <td width="20%">
+                                        <div id="aaa" height="150" width="40%" ng-radial-gauge ranges="ranges"
+                                             value="value" value-unit="unit" precision="precision"
+                                             lower-limit="lowerLimit" upper-limit="upperLimit">
+                                        </div>
+                                    </td>
 
-<td>
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100" height="100" id="fillgauge3"></svg>
-</td>
-
-
-	
-	<td width="20%" data-sparkline="1, 2, -8, 5 " style="margin-left:70px;"></td> 
-	<td width="20%" class="all-font">3 Days</td>
-</tr>
-
-
-
-</table>
-
-<!-- 
-
-<div class="col-md-12 col-sm-12 col-xs-12">
-<div class="col-md-3"><b>LOCATION/ASSET<br>NAME</b></div>
-<div class="col-md-3"><b>PERFORMANCE</b></div>
-<div class="col-md-2"><b>EFFICIENCY</b></div>
-<div class="col-md-2"><b>14-DAY TREND</b></div>
-<div class="col-md-2"><b>OUT OF ACTION</b></div>     
-</div>
-<div class="col-md-12 col-sm-12 col-xs-12 m2">
-<div class="col-md-3">Machine N</div>
-<div class="col-md-3">
-	<img src="machine/machine2.png"  style="height: 8pc;margin-left: -32px;">
+                                    <td>
+                                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100" height="100"
+                                             id="fillgauge3"></svg>
+                                    </td>
 
 
-</div>
-<div class="col-md-2">70%</div>
-<div class="col-md-2"><img src="images/g2.png"></div>
-<div class="col-md-2">13 days</div>  
-</div> -->
-
-</div>
-</div>
-<div class="panel panel-default pd-color" id="gg1">
-<div class="panel-heading">
-Predictive
-</div>
-<div class="panel-body p-body p-body-graph">
-<!-- implement graph here -->
-
-<style type="text/css">
-${demo.css}
-</style>
+                                    <td width="20%" data-sparkline="1, 2, -8, 5 " style="margin-left:70px;"></td>
+                                    <td width="20%" class="all-font">3 Days</td>
+                                </tr>
 
 
-<!-- Machine 1 Data -->
-<!--
-<script type="text/javascript">
-$(function () {
-	$('#container').highcharts({
-		chart: {
-			type: 'areaspline'
-		},
-		title: {
-			text: 'Plant A - Machine1 Readings'
-		},
-		legend: {
-			layout: 'vertical',
-			align: 'left',
-			verticalAlign: 'top',
-			x: 150,
-			y: 100,
-			floating: true,
-			borderWidth: 1,
-			backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-		},
-		xAxis: {
-			categories: [
-			'Monday',
-			'Tuesday',
-			'Wednesday',
-			'Thursday',
-			'Friday',
-			'Saturday',
-			'Sunday'
-			],
-plotBands: [{ // visualize the weekend
-from: 4.5,
-to: 6.5,
-color: 'rgba(68, 170, 213, .2)'
-}]
-},
-yAxis: {
-title: {
-text: 'Units'
-}
-},
-tooltip: {
-shared: true,
-valueSuffix: ' units'
-},
-credits: {
-enabled: false
-},
-plotOptions: {
-areaspline: {
-fillOpacity: 0.5
-}
-},
-series: [{
-name: 'Machine1',
-data: [3, 4, 3, 5, 4, 10, 12]
-}
-//, {
-// 	name: 'Machine2',
-// 	data: [1, 3, 4, 3, 3, 5, 4]
-// }
-]
-});
-});
-</script>
+                            </table>
+
+                            <!--
+
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-md-3"><b>LOCATION/ASSET<br>NAME</b></div>
+                            <div class="col-md-3"><b>PERFORMANCE</b></div>
+                            <div class="col-md-2"><b>EFFICIENCY</b></div>
+                            <div class="col-md-2"><b>14-DAY TREND</b></div>
+                            <div class="col-md-2"><b>OUT OF ACTION</b></div>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12 m2">
+                            <div class="col-md-3">Machine N</div>
+                            <div class="col-md-3">
+                                <img src="machine/machine2.png"  style="height: 8pc;margin-left: -32px;">
+
+
+                            </div>
+                            <div class="col-md-2">70%</div>
+                            <div class="col-md-2"><img src="images/g2.png"></div>
+                            <div class="col-md-2">13 days</div>
+                            </div> -->
+
+                        </div>
+                    </div>
+                    <div class="panel panel-default pd-color" id="gg1">
+                        <div class="panel-heading">
+                            Predictive
+                        </div>
+                        <div class="panel-body p-body p-body-graph">
+                            <!-- implement graph here -->
+
+                            <style type="text/css">
+                                ${demo.css}
+                            </style>
+
+
+                            <!-- Machine 1 Data -->
+                            <!--
+                            <script type="text/javascript">
+                            $(function () {
+                                $('#container').highcharts({
+                                    chart: {
+                                        type: 'areaspline'
+                                    },
+                                    title: {
+                                        text: 'Plant A - Machine1 Readings'
+                                    },
+                                    legend: {
+                                        layout: 'vertical',
+                                        align: 'left',
+                                        verticalAlign: 'top',
+                                        x: 150,
+                                        y: 100,
+                                        floating: true,
+                                        borderWidth: 1,
+                                        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+                                    },
+                                    xAxis: {
+                                        categories: [
+                                        'Monday',
+                                        'Tuesday',
+                                        'Wednesday',
+                                        'Thursday',
+                                        'Friday',
+                                        'Saturday',
+                                        'Sunday'
+                                        ],
+                            plotBands: [{ // visualize the weekend
+                            from: 4.5,
+                            to: 6.5,
+                            color: 'rgba(68, 170, 213, .2)'
+                            }]
+                            },
+                            yAxis: {
+                            title: {
+                            text: 'Units'
+                            }
+                            },
+                            tooltip: {
+                            shared: true,
+                            valueSuffix: ' units'
+                            },
+                            credits: {
+                            enabled: false
+                            },
+                            plotOptions: {
+                            areaspline: {
+                            fillOpacity: 0.5
+                            }
+                            },
+                            series: [{
+                            name: 'Machine1',
+                            data: [3, 4, 3, 5, 4, 10, 12]
+                            }
+                            //, {
+                            // 	name: 'Machine2',
+                            // 	data: [1, 3, 4, 3, 3, 5, 4]
+                            // }
+                            ]
+                            });
+                            });
+                            </script>
 
 
 
-<script type="text/javascript">
-$(function () {
-$('#container1').highcharts({
-chart: {
-type: 'areaspline'
-},
-title: {
-text: 'Plant A - Machine2 Readings'
-},
-legend: {
-layout: 'vertical',
-align: 'left',
-verticalAlign: 'top',
-x: 150,
-y: 100,
-floating: true,
-borderWidth: 1,
-backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-},
-xAxis: {
-categories: [
-'Monday',
-'Tuesday',
-'Wednesday',
-'Thursday',
-'Friday',
-'Saturday',
-'Sunday'
-],
-plotBands: [{ // visualize the weekend
-from: 4.5,
-to: 6.5,
-color: 'rgba(68, 170, 213, .2)'
-}]
-},
-yAxis: {
-title: {
-text: 'Units'
-}
-},
-tooltip: {
-shared: true,
-valueSuffix: ' units'
-},
-credits: {
-enabled: false
-},
-plotOptions: {
-areaspline: {
-fillOpacity: 0.5
-}
-},
-series: [
-// {
-// 	name: 'Machine1',
-// 	data: [3, 4, 3, 5, 4, 10, 12]
-// }, 
-{
-name: 'Machine2',
-data: [1, 3, 4, 3, 3, 5, 4]
-}]
-});
-});
-</script>
--->
+                            <script type="text/javascript">
+                            $(function () {
+                            $('#container1').highcharts({
+                            chart: {
+                            type: 'areaspline'
+                            },
+                            title: {
+                            text: 'Plant A - Machine2 Readings'
+                            },
+                            legend: {
+                            layout: 'vertical',
+                            align: 'left',
+                            verticalAlign: 'top',
+                            x: 150,
+                            y: 100,
+                            floating: true,
+                            borderWidth: 1,
+                            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+                            },
+                            xAxis: {
+                            categories: [
+                            'Monday',
+                            'Tuesday',
+                            'Wednesday',
+                            'Thursday',
+                            'Friday',
+                            'Saturday',
+                            'Sunday'
+                            ],
+                            plotBands: [{ // visualize the weekend
+                            from: 4.5,
+                            to: 6.5,
+                            color: 'rgba(68, 170, 213, .2)'
+                            }]
+                            },
+                            yAxis: {
+                            title: {
+                            text: 'Units'
+                            }
+                            },
+                            tooltip: {
+                            shared: true,
+                            valueSuffix: ' units'
+                            },
+                            credits: {
+                            enabled: false
+                            },
+                            plotOptions: {
+                            areaspline: {
+                            fillOpacity: 0.5
+                            }
+                            },
+                            series: [
+                            // {
+                            // 	name: 'Machine1',
+                            // 	data: [3, 4, 3, 5, 4, 10, 12]
+                            // },
+                            {
+                            name: 'Machine2',
+                            data: [1, 3, 4, 3, 3, 5, 4]
+                            }]
+                            });
+                            });
+                            </script>
+                            -->
 
 
-<form name="Form1" style="color: green ; font-size: 150%" action = "#">  
-
-   
-<input type="radio"       
-name="checkbox1"        
-onclick = "Anomaly()" value="Anomaly" /><span style="font-size:12px;">Anomaly</span>       
- 
-<input type="radio"       
-name="checkbox1"       
-onclick = "Predictive()" value="Predictive" /> <span style="font-size:12px;">Predictive </span>       
- 
-<input type="radio"       
-name="checkbox1"       
-onclick = "Both()" value="Both" /> <span style="font-size:12px;">Both</span>             
-</form> 
-<div id="container3"  data-popup-open="popup-1" style="min-width: 770px; height: 150px; margin: 0 auto; float:left; "></div>
-
-<div style="float:left; width:200px; height:150px; border:1px solid #31708f; margin-top:12px; background-color:burlywood;" >
-<h5 align="center">Anamoly severity</h5><br>
-<div class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:14px;">Nil</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-2x fa-thumbs-o-down" style="color: red;"></i></div>
-<div class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:14px;">High</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-2x fa-thumbs-up" style="color: green;"></i></div>
-
-</div>
-</div>
-<div class="panel panel-default pd-color" id="gg1">
-<div class="panel-heading">
-Performance
-</div>
-<div class="panel-body p-body p-body-graph">
-
-<div id="container1" style="min-width: 770px; height: 150px; margin: 0 auto; float:left;"></div>
-
-<div style="float:left; width:200px; height:150px; border:1px solid #31708f; margin-top:52px; background-color:burlywood;" ><br>
-<div class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:14px;">Performance</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;56%</div>
-<div class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:14px;">Power</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;98%</div>
-<div class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:14px;">Yield</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;78%</div>
-
-</div>
-
-</div>
-</div> 
-
-<div class="popup" data-popup="popup-1" >
-    <div class="popup-inner">
-	 <a class="popup-close" data-popup-close="popup-1" href="#">x</a>
-	<p data-popup-close="popup-1" href="#">
-	
-       
-       
-		<div id="container2"   style="width: 600px; height:150px; float:left;"></div>
-		<div style="float:left; width:150px; margin: 3px 54px; border:1px solid black;  background-color: burlywood;" >
-		<h5 align="center">Time to seize-45%</h5>
-			<img src="images/g1.png" width="150px" height="80px">		
-		<h5 align="center">14 Days Trend</h5>
+                            <form name="Form1" style="color: green ; font-size: 150%" action="#">
 
 
-</div>
+                                <input type="radio"
+                                       name="checkbox1"
+                                       onclick="Anomaly()" value="Anomaly"/><span style="font-size:12px;">Anomaly</span>
 
-		</p>
-<div style="clear:both;"></div>		
-<div style="float:left;">
- 
-  
-      <h5 style="font-size:13px;">Dependency</h5>
-	  <img src="images/dependency.png" width="140px"> 
-    
+                                <input type="radio"
+                                       name="checkbox1"
+                                       onclick="Predictive()" value="Predictive"/> <span style="font-size:12px;">Predictive </span>
 
-</div>
- <div style="float:left; width:44%; padding:1px 10px; border:1px solid black; border-radius:10px;">
-		<table class="table">
-		<caption style="font-size:13px;">Symptom-Cause-Impact-Remedy Table ( SCIRT )</span></caption>
-  <tr class="success">
-    <th></th>
-    <th></th>		
-    <th></th>
-  </tr>
-  <tr>
-    <td></td>
-    <td></td>		
-    <td></td>
-  </tr>
-  <tr>
-    <td></td>
-    <td></td>		
-    <td></td>
-  </tr>
-  <tr>
-    <td></td>
-    <td></td>		
-    <td></td>
-  </tr>
-</table>
-</div>
+                                <input type="radio"
+                                       name="checkbox1"
+                                       onclick="Both()" value="Both"/> <span style="font-size:12px;">Both</span>
+                            </form>
+                            <div id="container3" data-popup-open="popup-1"
+                                 style="min-width: 770px; height: 150px; margin: 0 auto; float:left; "></div>
 
- <div style="float:left; width:35%; padding: 5px 24px; border:1px solid black; border-radius:10px;">
-		<table>
-		
-  <tr>
-    <td style="font-size:13px;">Sensor 1</span</td>
-    <td style="font-size:13px;">%Contribution</td>		
-    <td></td>
-  </tr>
-  <tr>
-    <td style="font-size:13px;">Sensor 2</td>
-    <td style="font-size:13px;">%Contribution</td>		
-    <td></td>
-  </tr>
-  <tr>
-    <td style="font-size:13px;">Sensor 3</td>
-    <td style="font-size:13px;">%Contribution</td>		
-    <td></td>
-  </tr>
-    <tr>
-    <td style="font-size:13px;">Sensor 4</td>
-    <td style="font-size:13px;">%Contribution</td>		
-    <td></td>
-  </tr>
+                            <div style="float:left; width:200px; height:150px; border:1px solid #31708f; margin-top:12px; background-color:burlywood;">
+                                <h5 align="center">Anamoly severity</h5><br>
+                                <div class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                                        style="font-size:14px;">Nil</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
+                                        class="fa fa-2x fa-thumbs-o-down" style="color: red;"></i></div>
+                                <div class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                                        style="font-size:14px;">High</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
+                                        class="fa fa-2x fa-thumbs-up" style="color: green;"></i></div>
 
-</table>
-</div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default pd-color" id="gg1">
+                            <div class="panel-heading">
+                                Performance
+                            </div>
+                            <div class="panel-body p-body p-body-graph">
 
+                                <div id="container1"
+                                     style="min-width: 770px; height: 150px; margin: 0 auto; float:left;"></div>
+
+                                <div style="float:left; width:200px; height:150px; border:1px solid #31708f; margin-top:52px; background-color:burlywood;">
+                                    <br>
+                                    <div class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:14px;">Performance</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;56%
+                                    </div>
+                                    <div class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:14px;">Power</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;98%
+                                    </div>
+                                    <div class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:14px;">Yield</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;78%
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="popup" data-popup="popup-1">
+                            <div class="popup-inner">
+                                <a class="popup-close" data-popup-close="popup-1" href="#">x</a>
+                                <p data-popup-close="popup-1" href="#">
+
+
+                                <div id="container2" style="width: 600px; height:150px; float:left;"></div>
+                                <div style="float:left; width:150px; margin: 3px 54px; border:1px solid black;  background-color: burlywood;">
+                                    <h5 align="center">Time to seize-45%</h5>
+                                    <img src="images/g1.png" width="150px" height="80px">
+                                    <h5 align="center">14 Days Trend</h5>
+
+
+                                </div>
+
+                                </p>
+                                <div style="clear:both;"></div>
+                                <div style="float:left;">
+
+
+                                    <h5 style="font-size:13px;">Dependency</h5>
+                                    <img src="images/dependency.png" width="140px">
+
+
+                                </div>
+                                <div style="float:left; width:44%; padding:1px 10px; border:1px solid black; border-radius:10px;">
+                                    <table class="table">
+                                        <caption style="font-size:13px;">Symptom-Cause-Impact-Remedy Table ( SCIRT
+                                            )</span></caption>
+                                        <tr class="success">
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div style="float:left; width:35%; padding: 5px 24px; border:1px solid black; border-radius:10px;">
+                                    <table>
+
+                                        <tr>
+                                            <td style="font-size:13px;">Sensor 1</span</td>
+                                            <td style="font-size:13px;">%Contribution</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size:13px;">Sensor 2</td>
+                                            <td style="font-size:13px;">%Contribution</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size:13px;">Sensor 3</td>
+                                            <td style="font-size:13px;">%Contribution</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size:13px;">Sensor 4</td>
+                                            <td style="font-size:13px;">%Contribution</td>
+                                            <td></td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- implement graph end -->
+                        <!--
+                        <div class="details">
+                        <!-- 	<div style="    width: 70%;
+                        background: #BEDAF6;
+                        padding: 22px;
+                        -webkit-border-radius: 33px;
+                        margin-left: 13%;
+                        font-size: 17px;
+                        font-weight: bold;
+                        ">
+                        Performance ::<span id="p1"></span><br/>
+                        Power Consumption::<span id="p2"></span><br/>
+                        Quality::<span id="p3"></span><br/>
+                        </div> -->
+                        <!--
+                        <br/>
+                        <div style="
+                        width: 100%;
+                        font-size: 17px;
+                        font-weight: bold;
+                        max-width: 100%;
+                        overflow: hidden;
+                        ">
+                        <h1 style="text-align:center;">Sensor Graph</h1>
+                        <img src="images/graph.png" width="100%;" />
+
+                        </div>
+
+                        </div>
+                        -->
+                    </div>
+
+
+                </div>
+                <footer class="pull-left footer">
+                    <p class="col-md-12">
+
+                        <span style="font-size:10px; color:#777;">All Rights Reserved &copy;
+                            2016 HITACHI LTD, Ver 1.0 </span><a href="#"></a>
+                    </p>
+                </footer>
+            </div>
+
+        </div>
+        <!--
+        <div role="tabpanel" class="tab-pane" id="profile"> page 2...</div>
+        <div role="tabpanel" class="tab-pane" id="messages"> page 3...</div>
+        <div role="tabpanel" class="tab-pane" id="settings"> page 4...</div> -->
     </div>
-</div>
-
-<!-- implement graph end -->
-<!--
-<div class="details">
-<!-- 	<div style="    width: 70%;
-background: #BEDAF6;
-padding: 22px;
--webkit-border-radius: 33px;
-margin-left: 13%;
-font-size: 17px;
-font-weight: bold;
-">
-Performance ::<span id="p1"></span><br/>
-Power Consumption::<span id="p2"></span><br/>
-Quality::<span id="p3"></span><br/>
-</div> -->
-<!--
-<br/>
-<div style="
-width: 100%;
-font-size: 17px;
-font-weight: bold;
-max-width: 100%;
-overflow: hidden;
-">
-<h1 style="text-align:center;">Sensor Graph</h1>
-<img src="images/graph.png" width="100%;" />
-
-</div>
-
-</div>
--->
-</div>
-
-
-
-</div>
-<footer class="pull-left footer">
-<p class="col-md-12">
-
-<span style="font-size:10px; color:#777;">All Rights Reserved &copy; 2016 HITACHI LTD, Ver 1.0 </span><a href="#"></a>
-</p>
-</footer>
-</div>    
-
-</div>
-<!-- 
-<div role="tabpanel" class="tab-pane" id="profile"> page 2...</div>
-<div role="tabpanel" class="tab-pane" id="messages"> page 3...</div>
-<div role="tabpanel" class="tab-pane" id="settings"> page 4...</div> -->
-</div>
 
 </div>
 </div>
@@ -896,227 +989,178 @@ overflow: hidden;
 </body>
 </html>
 <style type="text/css">
-.navbar-nav>li{
-margin-right: 6px !important;
-}
-hr{
-color: black;
-border: 0.5px solid #6A6A6A;
-}
+    .navbar-nav > li {
+        margin-right: 6px !important;
+    }
 
-.crit-color:hover{
-text-decoration: none;
-}
-.p-body {
-height: auto;
-background-color: #FFFFFF!important;
-color: #3C3C3C!important;
-font-size: 17px;
-font-family: sans-serif;
-}
-.crit-color{
-text-shadow: 0px 0px 0px #2c2e38, 1px 1px 0px #5c5f72;
-font: 17px 'BazarMedium';
-letter-spacing: 11px;
-}
+    hr {
+        color: black;
+        border: 0.5px solid #6A6A6A;
+    }
+
+    .crit-color:hover {
+        text-decoration: none;
+    }
+
+    .p-body {
+        height: auto;
+        background-color: #FFFFFF !important;
+        color: #3C3C3C !important;
+        font-size: 17px;
+        font-family: sans-serif;
+    }
+
+    .crit-color {
+        text-shadow: 0px 0px 0px #2c2e38, 1px 1px 0px #5c5f72;
+        font: 17px 'BazarMedium';
+        letter-spacing: 11px;
+    }
 </style>
 
 
-
-
-
-
-
-
-
 <script>
-$(document).ready(function(){
+    $(document).ready(function () {
 
-$(".alternate_menu").click(function() {
-$('#dd').hide();
-$('#pp').hide();
-$('#gg').show();
-$('#dd1').hide();
-$('#pp1').hide();
-$('#gg1').show();
-});
+        $(".alternate_menu").click(function () {
+            $('#dd').hide();
+            $('#pp').hide();
+            $('#gg').show();
+            $('#dd1').hide();
+            $('#pp1').hide();
+            $('#gg1').show();
+        });
 
-$(".custom_dashboard_menu").css("height",$( "#pp1" ).height() );
-$(".custom_dashboard_menu1").css("height",$( "#pp1" ).height() );
+        $(".custom_dashboard_menu").css("height", $("#pp1").height());
+        $(".custom_dashboard_menu1").css("height", $("#pp1").height());
 
-$(".details").hide();
-$("#container").click(function(){
-$(".details").show();
-$("#p1").html(Math.round(Math.random()*15));
-$("#p2").html(Math.random());
-$("#p3").html(Math.random()*30);
-$("html, body").animate({ scrollTop: $(document).height() }, "slow");
-});
-/*
-$("#container1").click(function(){
-$(".details").show();
-$("#p1").html(Math.round(Math.random()*15));
-$("#p2").html(Math.random());
-$("#p3").html(Math.random()*30);
-$("html, body").animate({ scrollTop: $(document).height() }, "slow");
-});
-*/
-});
+        $(".details").hide();
+        $("#container").click(function () {
+            $(".details").show();
+            $("#p1").html(Math.round(Math.random() * 15));
+            $("#p2").html(Math.random());
+            $("#p3").html(Math.random() * 30);
+            $("html, body").animate({scrollTop: $(document).height()}, "slow");
+        });
+        /*
+         $("#container1").click(function(){
+         $(".details").show();
+         $("#p1").html(Math.round(Math.random()*15));
+         $("#p2").html(Math.random());
+         $("#p3").html(Math.random()*30);
+         $("html, body").animate({ scrollTop: $(document).height() }, "slow");
+         });
+         */
+    });
 
 </script>
 
 
 <style type="text/css">
-body {
-font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-font-size: 14px;
-line-height: 1.42857143;
-color: #333;
-background: url('images/Header_Ribbon_big.png') !important;
-margin-top: -9px !important;
-}
-nav.navbar.navbar-default.nav-side.custom_dashboard_menu {
-    background: url("images/Header_Ribbon.png") !important;
-}
+    body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #333;
+        background: url('images/Header_Ribbon_big.png') !important;
+        margin-top: -9px !important;
+    }
 
-.col-md-6 {
-width: 50%;
-font-size: 24px;
-top: 38px;
-right:27px;
-}
-td{
-padding: 3px 20px;
+    nav.navbar.navbar-default.nav-side.custom_dashboard_menu {
+        background: url("images/Header_Ribbon.png") !important;
+    }
 
-}
-ul.nav.nav-tabs {
-position: relative;
-top: 39px;
-z-index: 999;
-}
-.all-font{
-font-size:11px;
-}
+    .col-md-6 {
+        width: 50%;
+        font-size: 24px;
+        top: 38px;
+        right: 27px;
+    }
 
-.nav-tabs>li>a {
-    margin-right: 2px;
-    line-height: 1.42857143;
-    border: 1px solid transparent;
-    border-radius: 15px 15px 0 0;
-    width: 194px;
+    td {
+        padding: 3px 20px;
+
+    }
+
+    ul.nav.nav-tabs {
+        position: relative;
+        top: 39px;
+        z-index: 999;
+    }
+
+    .all-font {
+        font-size: 11px;
+    }
+
+    .nav-tabs > li > a {
+        margin-right: 2px;
+        line-height: 1.42857143;
+        border: 1px solid transparent;
+        border-radius: 15px 15px 0 0;
+        width: 194px;
         text-align: center;
 
-}
-.nav-tabs>li {
-    float: left;
-    margin-bottom: -1px;
-    margin: 0px;
-    top: 9px;
-}
-.navbar-default {
-    border-color: #e7e7e7;
-    background: none !important;
-}	
-.pd-color {
-    border: 4px solid rgba(13, 63, 26, 0.95)!important;
-}
-.sidebar {
-    border: 6px solid rgba(37, 37, 37, 0.42);
-    border-radius: 10px;
-}
-a {
-    color: #FFFFFF;
-    text-decoration: none;
-}
-rect{
-    fill: none !important;
-}
-#result {
-    text-align: right;
-    color: gray;
-    min-height: 2em;
-}
-#table-sparkline {
-    margin: 0 auto;
-    border-collapse: collapse;
-}
-th {
-    font-weight: bold;
-    text-align: left;
-}
-td, th {
-    padding: 5px;
-   
-    height: 20px;
-}
+    }
 
+    .nav-tabs > li {
+        float: left;
+        margin-bottom: -1px;
+        margin: 0px;
+        top: 9px;
+    }
 
-.highcharts-tooltip>span {
-    background: white;
-    border: 1px solid silver;
-    border-radius: 3px;
-    box-shadow: 1px 1px 2px #888;
-    padding: 11px;
-}
+    .navbar-default {
+        border-color: #e7e7e7;
+        background: none !important;
+    }
+
+    .pd-color {
+        border: 4px solid rgba(13, 63, 26, 0.95) !important;
+    }
+
+    .sidebar {
+        border: 6px solid rgba(37, 37, 37, 0.42);
+        border-radius: 10px;
+    }
+
+    a {
+        color: #FFFFFF;
+        text-decoration: none;
+    }
+
+    rect {
+        fill: none !important;
+    }
+
+    #result {
+        text-align: right;
+        color: gray;
+        min-height: 2em;
+    }
+
+    #table-sparkline {
+        margin: 0 auto;
+        border-collapse: collapse;
+    }
+
+    th {
+        font-weight: bold;
+        text-align: left;
+    }
+
+    td, th {
+        padding: 5px;
+
+        height: 20px;
+    }
+
+    .highcharts-tooltip > span {
+        background: white;
+        border: 1px solid silver;
+        border-radius: 3px;
+        box-shadow: 1px 1px 2px #888;
+        padding: 11px;
+    }
 </style>
-
-<script src="ng-radial-gauge-dir.js"></script>
-<script>
-var app = angular.module('MachineApp', ['ngRadialGauge']);
-
-app.controller('machineController', ['$scope', '$timeout', function($scope, $timeout) {
-     
-	  $scope.value = 75;
-        $scope.upperLimit = 100;
-        $scope.lowerLimit = 0;
-        $scope.unit = "km/hr";
-        $scope.precision = 2;
-		 $scope.machines = ["machine1","machine2","machine3","machine4","machine5","machine6","machine7","machine8","machine9","machine10"];
-        $scope.ranges = [
-            {
-                min: 0,
-                max: 20,
-                color: '#DEDEDE'
-            },
-            {
-                min:20,
-                max: 40,
-                color: '#8DCA2F'
-            },
-            {
-                min: 40,
-                max: 60,
-                color: '#FDC702'
-            },
-            {
-                min: 60,
-                max: 80,
-                color: '#FF7700'
-            },
-            {
-                min: 80,
-                max: 100,
-                color: '#C50200'
-            }
-        ];
-
-        function update() {
-            $timeout(function() {
-                $scope.value=$scope.value  ;
-                if ($scope.value > $scope.upperLimit) {
-                    $scope.value=$scope.lowerLimit;
-                }
-                update();
-            }, 1000);
-        }
-        update();
-    }]);    
-    
-
-</script>
- <script src="http://d3js.org/d3.v3.min.js" language="JavaScript"></script>
-
- <script src="test.js" language="JavaScript"></script>
 <script language="JavaScript">
     var gauge1 = loadLiquidFillGauge("fillgauge1", 55);
     var config1 = liquidFillGaugeDefaultSettings();
@@ -1127,7 +1171,7 @@ app.controller('machineController', ['$scope', '$timeout', function($scope, $tim
     config1.circleThickness = 0.2;
     config1.textVertPosition = 0.2;
     config1.waveAnimateTime = 1000;
-    var gauge2= loadLiquidFillGauge("fillgauge2", 28, config1);
+    var gauge2 = loadLiquidFillGauge("fillgauge2", 28, config1);
     var config2 = liquidFillGaugeDefaultSettings();
     config2.circleColor = "#D4AB6A";
     config2.textColor = "#553300";
@@ -1183,811 +1227,864 @@ app.controller('machineController', ['$scope', '$timeout', function($scope, $tim
     config5.displayPercent = false;
     var gauge6 = loadLiquidFillGauge("fillgauge6", 120, config5);
 
-    function NewValue(){
-        if(Math.random() > .5){
-            return Math.round(Math.random()*100);
+    function NewValue() {
+        if (Math.random() > .5) {
+            return Math.round(Math.random() * 100);
         } else {
-            return (Math.random()*100).toFixed(1);
+            return (Math.random() * 100).toFixed(1);
         }
     }
 </script>
 
+
+<!--<script src="ng-radial-gauge-dir.js"></script>-->
 <script>
-$(function () {
-    /**
-     * Create a constructor for sparklines that takes some sensible defaults and merges in the individual
-     * chart options. This function is also available from the jQuery plugin as $(element).highcharts('SparkLine').
-     */
-    Highcharts.SparkLine = function (a, b, c) {
-        var hasRenderToArg = typeof a === 'string' || a.nodeName,
-            options = arguments[hasRenderToArg ? 1 : 0],
-            defaultOptions = {
-                chart: {
-                    renderTo: (options.chart && options.chart.renderTo) || this,
-                    backgroundColor: null,
-                    borderWidth: 0,
-                    type: 'area',
-                    margin: [2, 0, 2, 0],
-                    width: 120,
-                    height: 20,
-                    style: {
-                        overflow: 'visible'
-                    },
-                    skipClone: true
-                },
-                title: {
-                    text: ''
-                },
-                credits: {
-                    enabled: false
-                },
-                xAxis: {
-                    labels: {
-                        enabled: false
-                    },
-                    title: {
-                        text: null
-                    },
-                    startOnTick: false,
-                    endOnTick: false,
-                    tickPositions: []
-                },
-                yAxis: {
-                    endOnTick: false,
-                    startOnTick: false,
-                    labels: {
-                        enabled: false
-                    },
-                    title: {
-                        text: null
-                    },
-                    tickPositions: [0]
-                },
-                legend: {
-                    enabled: false
-                },
-                tooltip: {
-                    backgroundColor: null,
-                    borderWidth: 0,
-                    shadow: false,
-                    useHTML: true,
-                    hideDelay: 0,
-                    shared: true,
-                    padding: 0,
-                    positioner: function (w, h, point) {
-                        return { x: point.plotX - w / 2, y: point.plotY - h };
-                    }
-                },
-                plotOptions: {
-                    series: {
-                        animation: false,
-                        lineWidth: 1,
-                        shadow: false,
-                        states: {
-                            hover: {
-                                lineWidth: 1
-                            }
-                        },
-                        marker: {
-                            radius: 1,
-                            states: {
-                                hover: {
-                                    radius: 2
-                                }
-                            }
-                        },
-                        fillOpacity: 0.25
-                    },
-                    column: {
-                        negativeColor: '#910000',
-                        borderColor: 'silver'
-                    }
+    var app = angular.module('MachineApp', []);
+//    var app = angular.module('MachineApp', ['ngRadialGauge']);
+
+    app.controller('machineController', ['$scope', '$timeout', function ($scope, $timeout) {
+
+        $scope.value = 75;
+        $scope.upperLimit = 100;
+        $scope.lowerLimit = 0;
+        $scope.unit = "km/hr";
+        $scope.precision = 2;
+        $scope.machines = ["machine1", "machine2", "machine3", "machine4", "machine5", "machine6", "machine7", "machine8", "machine9", "machine10"];
+        $scope.ranges = [
+            {
+                min: 0,
+                max: 20,
+                color: '#DEDEDE'
+            },
+            {
+                min: 20,
+                max: 40,
+                color: '#8DCA2F'
+            },
+            {
+                min: 40,
+                max: 60,
+                color: '#FDC702'
+            },
+            {
+                min: 60,
+                max: 80,
+                color: '#FF7700'
+            },
+            {
+                min: 80,
+                max: 100,
+                color: '#C50200'
+            }
+        ];
+
+        function update() {
+            $timeout(function () {
+                $scope.value = $scope.value;
+                if ($scope.value > $scope.upperLimit) {
+                    $scope.value = $scope.lowerLimit;
                 }
-            };
+                update();
+            }, 1000);
+        }
 
-        options = Highcharts.merge(defaultOptions, options);
+        update();
+    }]);
 
-        return hasRenderToArg ?
-            new Highcharts.Chart(a, options, c) :
-            new Highcharts.Chart(options, b);
-    };
 
-    var start = +new Date(),
-        $tds = $('td[data-sparkline]'),
-        fullLen = $tds.length,
-        n = 0;
+</script>
 
-    // Creating 153 sparkline charts is quite fast in modern browsers, but IE8 and mobile
-    // can take some seconds, so we split the input into chunks and apply them in timeouts
-    // in order avoid locking up the browser process and allow interaction.
-    function doChunk() {
-        var time = +new Date(),
-            i,
-            len = $tds.length,
-            $td,
-            stringdata,
-            arr,
-            data,
-            chart;
+<script>
+    $(function () {
+        /**
+         * Create a constructor for sparklines that takes some sensible defaults and merges in the individual
+         * chart options. This function is also available from the jQuery plugin as $(element).highcharts('SparkLine').
+         */
+        Highcharts.SparkLine = function (a, b, c) {
+            var hasRenderToArg = typeof a === 'string' || a.nodeName,
+                    options = arguments[hasRenderToArg ? 1 : 0],
+                    defaultOptions = {
+                        chart: {
+                            renderTo: (options.chart && options.chart.renderTo) || this,
+                            backgroundColor: null,
+                            borderWidth: 0,
+                            type: 'area',
+                            margin: [2, 0, 2, 0],
+                            width: 120,
+                            height: 20,
+                            style: {
+                                overflow: 'visible'
+                            },
+                            skipClone: true
+                        },
+                        title: {
+                            text: ''
+                        },
+                        credits: {
+                            enabled: false
+                        },
+                        xAxis: {
+                            labels: {
+                                enabled: false
+                            },
+                            title: {
+                                text: null
+                            },
+                            startOnTick: false,
+                            endOnTick: false,
+                            tickPositions: []
+                        },
+                        yAxis: {
+                            endOnTick: false,
+                            startOnTick: false,
+                            labels: {
+                                enabled: false
+                            },
+                            title: {
+                                text: null
+                            },
+                            tickPositions: [0]
+                        },
+                        legend: {
+                            enabled: false
+                        },
+                        tooltip: {
+                            backgroundColor: null,
+                            borderWidth: 0,
+                            shadow: false,
+                            useHTML: true,
+                            hideDelay: 0,
+                            shared: true,
+                            padding: 0,
+                            positioner: function (w, h, point) {
+                                return {x: point.plotX - w / 2, y: point.plotY - h};
+                            }
+                        },
+                        plotOptions: {
+                            series: {
+                                animation: false,
+                                lineWidth: 1,
+                                shadow: false,
+                                states: {
+                                    hover: {
+                                        lineWidth: 1
+                                    }
+                                },
+                                marker: {
+                                    radius: 1,
+                                    states: {
+                                        hover: {
+                                            radius: 2
+                                        }
+                                    }
+                                },
+                                fillOpacity: 0.25
+                            },
+                            column: {
+                                negativeColor: '#910000',
+                                borderColor: 'silver'
+                            }
+                        }
+                    };
 
-        for (i = 0; i < len; i += 1) {
-            $td = $($tds[i]);
-            stringdata = $td.data('sparkline');
-            arr = stringdata.split('; ');
-            data = $.map(arr[0].split(', '), parseFloat);
-            chart = {};
+            options = Highcharts.merge(defaultOptions, options);
 
-            if (arr[1]) {
-                chart.type = arr[1];
-            }
-            $td.highcharts('SparkLine', {
-                series: [{
-                    data: data,
-                    pointStart: 1
-                }],
-                tooltip: {
-                    headerFormat: '<span style="font-size: 10px">' + $td.parent().find('h6').html() + ', Q{point.x}:</span><br/>',
-                    pointFormat: '<b>{point.y}.000</b> INR'
-                },
-                chart: chart
-            });
+            return hasRenderToArg ?
+                    new Highcharts.Chart(a, options, c) :
+                    new Highcharts.Chart(options, b);
+        };
 
-            n += 1;
+        var start = +new Date(),
+                $tds = $('td[data-sparkline]'),
+                fullLen = $tds.length,
+                n = 0;
 
-            // If the process takes too much time, run a timeout to allow interaction with the browser
-            if (new Date() - time > 500) {
-                $tds.splice(0, i + 1);
-                setTimeout(doChunk, 0);
-                break;
-            }
+        // Creating 153 sparkline charts is quite fast in modern browsers, but IE8 and mobile
+        // can take some seconds, so we split the input into chunks and apply them in timeouts
+        // in order avoid locking up the browser process and allow interaction.
+        function doChunk() {
+            var time = +new Date(),
+                    i,
+                    len = $tds.length,
+                    $td,
+                    stringdata,
+                    arr,
+                    data,
+                    chart;
 
-            // Print a feedback on the performance
-            if (n === fullLen) {
-                $('#result').html('Generated ' + fullLen + ' sparklines in ' + (new Date() - start) + ' ms');
+            for (i = 0; i < len; i += 1) {
+                $td = $($tds[i]);
+                stringdata = $td.data('sparkline');
+                arr = stringdata.split('; ');
+                data = $.map(arr[0].split(', '), parseFloat);
+                chart = {};
+
+                if (arr[1]) {
+                    chart.type = arr[1];
+                }
+                $td.highcharts('SparkLine', {
+                    series: [{
+                        data: data,
+                        pointStart: 1
+                    }],
+                    tooltip: {
+                        headerFormat: '<span style="font-size: 10px">' + $td.parent().find('h6').html() + ', Q{point.x}:</span><br/>',
+                        pointFormat: '<b>{point.y}.000</b> INR'
+                    },
+                    chart: chart
+                });
+
+                n += 1;
+
+                // If the process takes too much time, run a timeout to allow interaction with the browser
+                if (new Date() - time > 500) {
+                    $tds.splice(0, i + 1);
+                    setTimeout(doChunk, 0);
+                    break;
+                }
+
+                // Print a feedback on the performance
+                if (n === fullLen) {
+                    $('#result').html('Generated ' + fullLen + ' sparklines in ' + (new Date() - start) + ' ms');
+                }
             }
         }
-    }
-    doChunk();
 
-});
+        doChunk();
+
+    });
 </script>
-<script src='highcharts.js'></script>  
-<script src='highcharts-more.js'></script>  
-<script>
-$(function () {
-    $('#container3').highcharts({
-        chart: {
-            type: 'areaspline',
-                     events: {
-                    load: function () {
+<!--<script src='highcharts.js'></script>-->
+<!--<script src='highcharts-more.js'></script>-->
+<!--<script>-->
+    <!--$(function () {-->
+        <!--$('#container3').highcharts({-->
+            <!--chart: {-->
+                <!--type: 'areaspline',-->
+                <!--events: {-->
+                    <!--load: function () {-->
 
-                        // set up the updating of the chart each second
-						
-                        var series1 = this.series[0];
-                        setInterval(function () {
-                            var x = (new Date()).getTime(), // current time
-                                y = Math.random();
-                            series1.addPoint([x, y], true, true);
-                        }, 2000);
-						 var series2 = this.series[1];
-                        setInterval(function () {
-                            var x = (new Date()).getTime(), // current time
-                                y = Math.random();
-                            series2.addPoint([x, y], true, true);
-                        }, 2000);
-						
-                    }
-                }
+                        <!--// set up the updating of the chart each second-->
 
-        },
-        title: {
-            text: 'Plant A Machine 1'
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'left',
-            verticalAlign: 'top',
-            x: 150,
-            y: 100,
-            floating: true,
-            borderWidth: 1,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-        },
-        xAxis: {
-           type:"datetime",
-            plotBands: [{ // visualize the weekend
-                from: 4.5,
-                to: 6.5,
-                color: 'rgba(68, 170, 213, .2)'
-            }]
-        },
-        yAxis: {
-            title: {
-                text: 'Percentage'
-            }
-        },
-        tooltip: {
-            shared: true,
-            valueSuffix: ' units'
-        },
-        credits: {
-            enabled: false
-        },
-        plotOptions: {
-            areaspline: {
-                fillOpacity: 0.5
-            }
-        },
-           series: [{
-                name: 'Anomaly',
-                data: (function () {
-                    // generate an array of random data
-                    var data = [],
-                        time = (new Date()).getTime(),
-                        i;
+                        <!--var series1 = this.series[0];-->
+                        <!--setInterval(function () {-->
+                            <!--var x = (new Date()).getTime(), // current time-->
+                                    <!--y = Math.random();-->
+                            <!--series1.addPoint([x, y], true, true);-->
+                        <!--}, 2000);-->
+                        <!--var series2 = this.series[1];-->
+                        <!--setInterval(function () {-->
+                            <!--var x = (new Date()).getTime(), // current time-->
+                                    <!--y = Math.random();-->
+                            <!--series2.addPoint([x, y], true, true);-->
+                        <!--}, 2000);-->
 
-                    for (i = -19; i <= 0; i += 1) {
-                        data.push({
-                            x: time + i * 1000,
-                            y: Math.random()
-                        });
-                    }
-                    return data;
-                }())
-            },
-			{
-                name: 'Predictive',
-                data: (function () {
-                    // generate an array of random data
-                    var data = [],
-                        time = (new Date()).getTime(),
-                        i;
+                    <!--}-->
+                <!--}-->
 
-                    for (i = -19; i <= 0; i += 1) {
-                        data.push({
-                            x: time + i * 1000,
-                            y: Math.random()
-                        });
-                    }
-                    return data;
-                }())
-            }]
-    });
-});
-$(function () {
-    $('#container1').highcharts({
-        chart: {
-            type: 'areaspline',
-                events: {
-                    load: function () {
+            <!--},-->
+            <!--title: {-->
+                <!--text: 'Plant A Machine 1'-->
+            <!--},-->
+            <!--legend: {-->
+                <!--layout: 'vertical',-->
+                <!--align: 'left',-->
+                <!--verticalAlign: 'top',-->
+                <!--x: 150,-->
+                <!--y: 100,-->
+                <!--floating: true,-->
+                <!--borderWidth: 1,-->
+                <!--backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'-->
+            <!--},-->
+            <!--xAxis: {-->
+                <!--type: "datetime",-->
+                <!--plotBands: [{ // visualize the weekend-->
+                    <!--from: 4.5,-->
+                    <!--to: 6.5,-->
+                    <!--color: 'rgba(68, 170, 213, .2)'-->
+                <!--}]-->
+            <!--},-->
+            <!--yAxis: {-->
+                <!--title: {-->
+                    <!--text: 'Percentage'-->
+                <!--}-->
+            <!--},-->
+            <!--tooltip: {-->
+                <!--shared: true,-->
+                <!--valueSuffix: ' units'-->
+            <!--},-->
+            <!--credits: {-->
+                <!--enabled: false-->
+            <!--},-->
+            <!--plotOptions: {-->
+                <!--areaspline: {-->
+                    <!--fillOpacity: 0.5-->
+                <!--}-->
+            <!--},-->
+            <!--series: [{-->
+                <!--name: 'Anomaly',-->
+                <!--data: (function () {-->
+                    <!--// generate an array of random data-->
+                    <!--var data = [],-->
+                            <!--time = (new Date()).getTime(),-->
+                            <!--i;-->
 
-                        // set up the updating of the chart each second
-						
-                        var series1 = this.series[0];
-                        setInterval(function () {
-                            var x = (new Date()).getTime(), // current time
-                                y = Math.random();
-                            series1.addPoint([x, y], true, true);
-                        }, 2000);
-						 var series2 = this.series[1];
-                        setInterval(function () {
-                            var x = (new Date()).getTime(), // current time
-                                y = Math.random();
-                            series2.addPoint([x, y], true, true);
-                        }, 2000);
-						 var series3 = this.series[2];
-                        setInterval(function () {
-                            var x = (new Date()).getTime(), // current time
-                                y = Math.random();
-                            series3.addPoint([x, y], true, true);
-                        }, 2000);
-                    }
-                }
+                    <!--for (i = -19; i <= 0; i += 1) {-->
+                        <!--data.push({-->
+                            <!--x: time + i * 1000,-->
+                            <!--y: Math.random()-->
+                        <!--});-->
+                    <!--}-->
+                    <!--return data;-->
+                <!--}())-->
+            <!--},-->
+                <!--{-->
+                    <!--name: 'Predictive',-->
+                    <!--data: (function () {-->
+                        <!--// generate an array of random data-->
+                        <!--var data = [],-->
+                                <!--time = (new Date()).getTime(),-->
+                                <!--i;-->
 
-        },
-        title: {
-            text: 'Plant A Machine 1'
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'left',
-            verticalAlign: 'top',
-            x: 150,
-            y: 100,
-            floating: true,
-            borderWidth: 1,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-        },
-        xAxis: {
-            type:"datetime",
-		  
-            plotBands: [{ // visualize the weekend
-                from: 4.5,
-                to: 6.5,
-                color: 'rgba(68, 170, 213, .2)'
-            }]
-        },
-        yAxis: {
-            title: {
-                text: 'Percentage'
-            }
-        },
-        tooltip: {
-            shared: true,
-            valueSuffix: ' units'
-        },
-        credits: {
-            enabled: false
-        },
-        plotOptions: {
-            areaspline: {
-                fillOpacity: 0.5
-            }
-        },
-         series: [{
-                name: 'Power',
-                data: (function () {
-                    // generate an array of random data
-                    var data = [],
-                        time = (new Date()).getTime(),
-                        i;
+                        <!--for (i = -19; i <= 0; i += 1) {-->
+                            <!--data.push({-->
+                                <!--x: time + i * 1000,-->
+                                <!--y: Math.random()-->
+                            <!--});-->
+                        <!--}-->
+                        <!--return data;-->
+                    <!--}())-->
+                <!--}]-->
+        <!--});-->
+    <!--});-->
+    <!--$(function () {-->
+        <!--$('#container1').highcharts({-->
+            <!--chart: {-->
+                <!--type: 'areaspline',-->
+                <!--events: {-->
+                    <!--load: function () {-->
 
-                    for (i = -19; i <= 0; i += 1) {
-                        data.push({
-                            x: time + i * 1000,
-                            y: Math.random()
-                        });
-                    }
-                    return data;
-                }())
-            },
-			{
-                name: 'Yield',
-                data: (function () {
-                    // generate an array of random data
-                    var data = [],
-                        time = (new Date()).getTime(),
-                        i;
+                        <!--// set up the updating of the chart each second-->
 
-                    for (i = -19; i <= 0; i += 1) {
-                        data.push({
-                            x: time + i * 1000,
-                            y: Math.random()
-                        });
-                    }
-                    return data;
-                }())
-            },
-			{
-                name: 'performance',
-                data: (function () {
-                    // generate an array of random data
-                    var data = [],
-                        time = (new Date()).getTime(),
-                        i;
+                        <!--var series1 = this.series[0];-->
+                        <!--setInterval(function () {-->
+                            <!--var x = (new Date()).getTime(), // current time-->
+                                    <!--y = Math.random();-->
+                            <!--series1.addPoint([x, y], true, true);-->
+                        <!--}, 2000);-->
+                        <!--var series2 = this.series[1];-->
+                        <!--setInterval(function () {-->
+                            <!--var x = (new Date()).getTime(), // current time-->
+                                    <!--y = Math.random();-->
+                            <!--series2.addPoint([x, y], true, true);-->
+                        <!--}, 2000);-->
+                        <!--var series3 = this.series[2];-->
+                        <!--setInterval(function () {-->
+                            <!--var x = (new Date()).getTime(), // current time-->
+                                    <!--y = Math.random();-->
+                            <!--series3.addPoint([x, y], true, true);-->
+                        <!--}, 2000);-->
+                    <!--}-->
+                <!--}-->
 
-                    for (i = -19; i <= 0; i += 1) {
-                        data.push({
-                            x: time + i * 1000,
-                            y: Math.random()
-                        });
-                    }
-                    return data;
-                }())
-            }]
-    });
-});
+            <!--},-->
+            <!--title: {-->
+                <!--text: 'Plant A Machine 1'-->
+            <!--},-->
+            <!--legend: {-->
+                <!--layout: 'vertical',-->
+                <!--align: 'left',-->
+                <!--verticalAlign: 'top',-->
+                <!--x: 150,-->
+                <!--y: 100,-->
+                <!--floating: true,-->
+                <!--borderWidth: 1,-->
+                <!--backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'-->
+            <!--},-->
+            <!--xAxis: {-->
+                <!--type: "datetime",-->
 
-	
-</script>
+                <!--plotBands: [{ // visualize the weekend-->
+                    <!--from: 4.5,-->
+                    <!--to: 6.5,-->
+                    <!--color: 'rgba(68, 170, 213, .2)'-->
+                <!--}]-->
+            <!--},-->
+            <!--yAxis: {-->
+                <!--title: {-->
+                    <!--text: 'Percentage'-->
+                <!--}-->
+            <!--},-->
+            <!--tooltip: {-->
+                <!--shared: true,-->
+                <!--valueSuffix: ' units'-->
+            <!--},-->
+            <!--credits: {-->
+                <!--enabled: false-->
+            <!--},-->
+            <!--plotOptions: {-->
+                <!--areaspline: {-->
+                    <!--fillOpacity: 0.5-->
+                <!--}-->
+            <!--},-->
+            <!--series: [{-->
+                <!--name: 'Power',-->
+                <!--data: (function () {-->
+                    <!--// generate an array of random data-->
+                    <!--var data = [],-->
+                            <!--time = (new Date()).getTime(),-->
+                            <!--i;-->
 
-<script>
-$(function () {
-    $('#container2').highcharts({
-        chart: {
-            type: 'areaspline',
-			events: {
-                    load: function () {
+                    <!--for (i = -19; i <= 0; i += 1) {-->
+                        <!--data.push({-->
+                            <!--x: time + i * 1000,-->
+                            <!--y: Math.random()-->
+                        <!--});-->
+                    <!--}-->
+                    <!--return data;-->
+                <!--}())-->
+            <!--},-->
+                <!--{-->
+                    <!--name: 'Yield',-->
+                    <!--data: (function () {-->
+                        <!--// generate an array of random data-->
+                        <!--var data = [],-->
+                                <!--time = (new Date()).getTime(),-->
+                                <!--i;-->
 
-                        // set up the updating of the chart each second
-                         var series1 = this.series[0];
-                        setInterval(function () {
-                            var x = (new Date()).getTime(), // current time
-                                y = Math.random();
-                            series1.addPoint([x, y], true, true);
-                        }, 2000);
-						 var series2 = this.series[1];
-                        setInterval(function () {
-                            var x = (new Date()).getTime(), // current time
-                                y = Math.random();
-                            series2.addPoint([x, y], true, true);
-                        }, 2000);
-                    }
-                }
+                        <!--for (i = -19; i <= 0; i += 1) {-->
+                            <!--data.push({-->
+                                <!--x: time + i * 1000,-->
+                                <!--y: Math.random()-->
+                            <!--});-->
+                        <!--}-->
+                        <!--return data;-->
+                    <!--}())-->
+                <!--},-->
+                <!--{-->
+                    <!--name: 'performance',-->
+                    <!--data: (function () {-->
+                        <!--// generate an array of random data-->
+                        <!--var data = [],-->
+                                <!--time = (new Date()).getTime(),-->
+                                <!--i;-->
 
-        },
-        title: {
-            text: 'Plant A Sensor'
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'left',
-            verticalAlign: 'top',
-            x: 150,
-            y: 100,
-            floating: true,
-            borderWidth: 1,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-        },
-       xAxis: {
-            type:"datetime",
-		  
-            plotBands: [{ // visualize the weekend
-                from: 4.5,
-                to: 6.5,
-                color: 'rgba(68, 170, 213, .2)'
-            }]
-        },
-        yAxis: {
-            title: {
-                text: 'Percentage'
-            }
-        },
-        tooltip: {
-            shared: true,
-            valueSuffix: ' units'
-        },
-        credits: {
-            enabled: false
-        },
-        plotOptions: {
-            areaspline: {
-                fillOpacity: 0.5
-            }
-        },
-        series: [{
-                name: 'Sensor2',
-                data: (function () {
-                    // generate an array of random data
-                    var data = [],
-                        time = (new Date()).getTime(),
-                        i;
+                        <!--for (i = -19; i <= 0; i += 1) {-->
+                            <!--data.push({-->
+                                <!--x: time + i * 1000,-->
+                                <!--y: Math.random()-->
+                            <!--});-->
+                        <!--}-->
+                        <!--return data;-->
+                    <!--}())-->
+                <!--}]-->
+        <!--});-->
+    <!--});-->
 
-                    for (i = -19; i <= 0; i += 1) {
-                        data.push({
-                            x: time + i * 1000,
-                            y: Math.random()
-                        });
-                    }
-                    return data;
-                }())
-            },
-			{
-                name: 'Sensor2',
-                data: (function () {
-                    // generate an array of random data
-                    var data = [],
-                        time = (new Date()).getTime(),
-                        i;
 
-                    for (i = -19; i <= 0; i += 1) {
-                        data.push({
-                            x: time + i * 1000,
-                            y: Math.random()
-                        });
-                    }
-                    return data;
-                }())
-            }]
-    });
-});
-</script>
-<script>
-$(function() {
-    //----- OPEN
-    $('[data-popup-open]').on('click', function(e)  {
-        var targeted_popup_class = jQuery(this).attr('data-popup-open');
-        $('[data-popup="' + targeted_popup_class + '"]').fadeIn(350);
- 
-        e.preventDefault();
-    });
- 
-    //----- CLOSE
-    $('[data-popup-close]').on('click', function(e)  {
-        var targeted_popup_class = jQuery(this).attr('data-popup-close');
-        $('[data-popup="' + targeted_popup_class + '"]').fadeOut(350);
- 
-        e.preventDefault();
-    });
-});
-</script>
-<script type="text/javascript">    
-$("#checkAll").change(function () {
-    $("input:checkbox").prop('checked', $(this).prop("checked"));
-});   
-//This is done to make the following JavaScript code compatible to XHTML. <![CDATA[      
-function Anomaly()      
-{      
-if(document.Form1.checkbox1.value == 'Anomaly')      
-{     
- 
-$(function () {
-    $('#container3').highcharts({
-        chart: {
-            type: 'areaspline',
-                     events: {
-                    load: function () {
+<!--</script>-->
 
-                        // set up the updating of the chart each second
-						
-                        var series1 = this.series[0];
-                        setInterval(function () {
-                            var x = (new Date()).getTime(), // current time
-                                y = Math.random();
-                            series1.addPoint([x, y], true, true);
-                        }, 2000);
-						
-						
-                    }
-                }
+<!--<script>-->
+    <!--$(function () {-->
+        <!--$('#container2').highcharts({-->
+            <!--chart: {-->
+                <!--type: 'areaspline',-->
+                <!--events: {-->
+                    <!--load: function () {-->
 
-        },
-        title: {
-            text: 'Plant A Machine 1'
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'left',
-            verticalAlign: 'top',
-            x: 150,
-            y: 100,
-            floating: true,
-            borderWidth: 1,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-        },
-        xAxis: {
-           type:"datetime",
-            plotBands: [{ // visualize the weekend
-                from: 4.5,
-                to: 6.5,
-                color: 'rgba(68, 170, 213, .2)'
-            }]
-        },
-        yAxis: {
-            title: {
-                text: 'Percentage'
-            }
-        },
-        tooltip: {
-            shared: true,
-            valueSuffix: ' units'
-        },
-        credits: {
-            enabled: false
-        },
-        plotOptions: {
-            areaspline: {
-                fillOpacity: 0.5
-            }
-        },
-           series: [{
-                name: 'Anomaly',
-                data: (function () {
-                    // generate an array of random data
-                    var data = [],
-                        time = (new Date()).getTime(),
-                        i;
+                        <!--// set up the updating of the chart each second-->
+                        <!--var series1 = this.series[0];-->
+                        <!--setInterval(function () {-->
+                            <!--var x = (new Date()).getTime(), // current time-->
+                                    <!--y = Math.random();-->
+                            <!--series1.addPoint([x, y], true, true);-->
+                        <!--}, 2000);-->
+                        <!--var series2 = this.series[1];-->
+                        <!--setInterval(function () {-->
+                            <!--var x = (new Date()).getTime(), // current time-->
+                                    <!--y = Math.random();-->
+                            <!--series2.addPoint([x, y], true, true);-->
+                        <!--}, 2000);-->
+                    <!--}-->
+                <!--}-->
 
-                    for (i = -19; i <= 0; i += 1) {
-                        data.push({
-                            x: time + i * 1000,
-                            y: Math.random()
-                        });
-                    }
-                    return data;
-                }())
-            }]
-    });
-});
-}   
-   
-}  
-    
-function Predictive()      
-{      
-if(document.Form1.checkbox1.value == 'Predictive')      
-{      
+            <!--},-->
+            <!--title: {-->
+                <!--text: 'Plant A Sensor'-->
+            <!--},-->
+            <!--legend: {-->
+                <!--layout: 'vertical',-->
+                <!--align: 'left',-->
+                <!--verticalAlign: 'top',-->
+                <!--x: 150,-->
+                <!--y: 100,-->
+                <!--floating: true,-->
+                <!--borderWidth: 1,-->
+                <!--backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'-->
+            <!--},-->
+            <!--xAxis: {-->
+                <!--type: "datetime",-->
 
-$(function () {
-    $('#container3').highcharts({
-        chart: {
-            type: 'areaspline',
-                     events: {
-                    load: function () {
+                <!--plotBands: [{ // visualize the weekend-->
+                    <!--from: 4.5,-->
+                    <!--to: 6.5,-->
+                    <!--color: 'rgba(68, 170, 213, .2)'-->
+                <!--}]-->
+            <!--},-->
+            <!--yAxis: {-->
+                <!--title: {-->
+                    <!--text: 'Percentage'-->
+                <!--}-->
+            <!--},-->
+            <!--tooltip: {-->
+                <!--shared: true,-->
+                <!--valueSuffix: ' units'-->
+            <!--},-->
+            <!--credits: {-->
+                <!--enabled: false-->
+            <!--},-->
+            <!--plotOptions: {-->
+                <!--areaspline: {-->
+                    <!--fillOpacity: 0.5-->
+                <!--}-->
+            <!--},-->
+            <!--series: [{-->
+                <!--name: 'Sensor2',-->
+                <!--data: (function () {-->
+                    <!--// generate an array of random data-->
+                    <!--var data = [],-->
+                            <!--time = (new Date()).getTime(),-->
+                            <!--i;-->
 
-                        // set up the updating of the chart each second
-						
-                        var series1 = this.series[0];
-                        setInterval(function () {
-                            var x = (new Date()).getTime(), // current time
-                                y = Math.random();
-                            series1.addPoint([x, y], true, true);
-                        }, 2000);
-						
-						
-                    }
-                }
+                    <!--for (i = -19; i <= 0; i += 1) {-->
+                        <!--data.push({-->
+                            <!--x: time + i * 1000,-->
+                            <!--y: Math.random()-->
+                        <!--});-->
+                    <!--}-->
+                    <!--return data;-->
+                <!--}())-->
+            <!--},-->
+                <!--{-->
+                    <!--name: 'Sensor2',-->
+                    <!--data: (function () {-->
+                        <!--// generate an array of random data-->
+                        <!--var data = [],-->
+                                <!--time = (new Date()).getTime(),-->
+                                <!--i;-->
 
-        },
-        title: {
-            text: 'Plant AAA Machine 1'
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'left',
-            verticalAlign: 'top',
-            x: 150,
-            y: 100,
-            floating: true,
-            borderWidth: 1,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-        },
-        xAxis: {
-           type:"datetime",
-            plotBands: [{ // visualize the weekend
-                from: 4.5,
-                to: 6.5,
-                color: 'rgba(68, 170, 213, .2)'
-            }]
-        },
-        yAxis: {
-            title: {
-                text: 'Percentage'
-            }
-        },
-        tooltip: {
-            shared: true,
-            valueSuffix: ' units'
-        },
-        credits: {
-            enabled: false
-        },
-        plotOptions: {
-            areaspline: {
-                fillOpacity: 0.5
-            }
-        },
-           series: [
-			{
-                name: 'Predictive',
-                data: (function () {
-                    // generate an array of random data
-                    var data = [],
-                        time = (new Date()).getTime(),
-                        i;
+                        <!--for (i = -19; i <= 0; i += 1) {-->
+                            <!--data.push({-->
+                                <!--x: time + i * 1000,-->
+                                <!--y: Math.random()-->
+                            <!--});-->
+                        <!--}-->
+                        <!--return data;-->
+                    <!--}())-->
+                <!--}]-->
+        <!--});-->
+    <!--});-->
+<!--</script>-->
+<!--<script>-->
+    <!--$(function () {-->
+        <!--//-&#45;&#45;&#45;&#45; OPEN-->
+        <!--$('[data-popup-open]').on('click', function (e) {-->
+            <!--var targeted_popup_class = jQuery(this).attr('data-popup-open');-->
+            <!--$('[data-popup="' + targeted_popup_class + '"]').fadeIn(350);-->
 
-                    for (i = -19; i <= 0; i += 1) {
-                        data.push({
-                            x: time + i * 1000,
-                            y: Math.random()
-                        });
-                    }
-                    return data;
-                }())
-            }]
-    });
-});
-}      
-} 
-function Both()      
-{      
-if(document.Form1.checkbox1.value == 'Both')      
-{     
- 
-$(function () {
-   $('#container3').highcharts({
-        chart: {
-            type: 'areaspline',
-                     events: {
-                    load: function () {
+            <!--e.preventDefault();-->
+        <!--});-->
 
-                        // set up the updating of the chart each second
-						
-                        var series1 = this.series[0];
-                        setInterval(function () {
-                            var x = (new Date()).getTime(), // current time
-                                y = Math.random();
-                            series1.addPoint([x, y], true, true);
-                        }, 2000);
-						 var series2 = this.series[1];
-                        setInterval(function () {
-                            var x = (new Date()).getTime(), // current time
-                                y = Math.random();
-                            series2.addPoint([x, y], true, true);
-                        }, 2000);
-						
-                    }
-                }
+        <!--//-&#45;&#45;&#45;&#45; CLOSE-->
+        <!--$('[data-popup-close]').on('click', function (e) {-->
+            <!--var targeted_popup_class = jQuery(this).attr('data-popup-close');-->
+            <!--$('[data-popup="' + targeted_popup_class + '"]').fadeOut(350);-->
 
-        },
-        title: {
-            text: 'Plant AAA Machine 1'
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'left',
-            verticalAlign: 'top',
-            x: 150,
-            y: 100,
-            floating: true,
-            borderWidth: 1,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-        },
-        xAxis: {
-           type:"datetime",
-            plotBands: [{ // visualize the weekend
-                from: 4.5,
-                to: 6.5,
-                color: 'rgba(68, 170, 213, .2)'
-            }]
-        },
-        yAxis: {
-            title: {
-                text: 'Percentage'
-            }
-        },
-        tooltip: {
-            shared: true,
-            valueSuffix: ' units'
-        },
-        credits: {
-            enabled: false
-        },
-        plotOptions: {
-            areaspline: {
-                fillOpacity: 0.5
-            }
-        },
-           series: [{
-                name: 'Anomaly',
-                data: (function () {
-                    // generate an array of random data
-                    var data = [],
-                        time = (new Date()).getTime(),
-                        i;
+            <!--e.preventDefault();-->
+        <!--});-->
+    <!--});-->
+<!--</script>-->
+<!--<script type="text/javascript">-->
+    <!--$("#checkAll").change(function () {-->
+        <!--$("input:checkbox").prop('checked', $(this).prop("checked"));-->
+    <!--});-->
+    <!--//This is done to make the following JavaScript code compatible to XHTML. <![CDATA[-->
+    <!--function Anomaly() {-->
+        <!--if (document.Form1.checkbox1.value == 'Anomaly') {-->
 
-                    for (i = -19; i <= 0; i += 1) {
-                        data.push({
-                            x: time + i * 1000,
-                            y: Math.random()
-                        });
-                    }
-                    return data;
-                }())
-            },
-			{
-                name: 'Predictive',
-                data: (function () {
-                    // generate an array of random data
-                    var data = [],
-                        time = (new Date()).getTime(),
-                        i;
+            <!--$(function () {-->
+                <!--$('#container3').highcharts({-->
+                    <!--chart: {-->
+                        <!--type: 'areaspline',-->
+                        <!--events: {-->
+                            <!--load: function () {-->
 
-                    for (i = -19; i <= 0; i += 1) {
-                        data.push({
-                            x: time + i * 1000,
-                            y: Math.random()
-                        });
-                    }
-                    return data;
-                }())
-            }]
-    });
-});
+                                <!--// set up the updating of the chart each second-->
 
-}   
-   
-}  
-    
-//]]>       
-</script> 
+                                <!--var series1 = this.series[0];-->
+                                <!--setInterval(function () {-->
+                                    <!--var x = (new Date()).getTime(), // current time-->
+                                            <!--y = Math.random();-->
+                                    <!--series1.addPoint([x, y], true, true);-->
+                                <!--}, 2000);-->
+
+
+                            <!--}-->
+                        <!--}-->
+
+                    <!--},-->
+                    <!--title: {-->
+                        <!--text: 'Plant A Machine 1'-->
+                    <!--},-->
+                    <!--legend: {-->
+                        <!--layout: 'vertical',-->
+                        <!--align: 'left',-->
+                        <!--verticalAlign: 'top',-->
+                        <!--x: 150,-->
+                        <!--y: 100,-->
+                        <!--floating: true,-->
+                        <!--borderWidth: 1,-->
+                        <!--backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'-->
+                    <!--},-->
+                    <!--xAxis: {-->
+                        <!--type: "datetime",-->
+                        <!--plotBands: [{ // visualize the weekend-->
+                            <!--from: 4.5,-->
+                            <!--to: 6.5,-->
+                            <!--color: 'rgba(68, 170, 213, .2)'-->
+                        <!--}]-->
+                    <!--},-->
+                    <!--yAxis: {-->
+                        <!--title: {-->
+                            <!--text: 'Percentage'-->
+                        <!--}-->
+                    <!--},-->
+                    <!--tooltip: {-->
+                        <!--shared: true,-->
+                        <!--valueSuffix: ' units'-->
+                    <!--},-->
+                    <!--credits: {-->
+                        <!--enabled: false-->
+                    <!--},-->
+                    <!--plotOptions: {-->
+                        <!--areaspline: {-->
+                            <!--fillOpacity: 0.5-->
+                        <!--}-->
+                    <!--},-->
+                    <!--series: [{-->
+                        <!--name: 'Anomaly',-->
+                        <!--data: (function () {-->
+                            <!--// generate an array of random data-->
+                            <!--var data = [],-->
+                                    <!--time = (new Date()).getTime(),-->
+                                    <!--i;-->
+
+                            <!--for (i = -19; i <= 0; i += 1) {-->
+                                <!--data.push({-->
+                                    <!--x: time + i * 1000,-->
+                                    <!--y: Math.random()-->
+                                <!--});-->
+                            <!--}-->
+                            <!--return data;-->
+                        <!--}())-->
+                    <!--}]-->
+                <!--});-->
+            <!--});-->
+        <!--}-->
+
+    <!--}-->
+
+    <!--function Predictive() {-->
+        <!--if (document.Form1.checkbox1.value == 'Predictive') {-->
+
+            <!--$(function () {-->
+                <!--$('#container3').highcharts({-->
+                    <!--chart: {-->
+                        <!--type: 'areaspline',-->
+                        <!--events: {-->
+                            <!--load: function () {-->
+
+                                <!--// set up the updating of the chart each second-->
+
+                                <!--var series1 = this.series[0];-->
+                                <!--setInterval(function () {-->
+                                    <!--var x = (new Date()).getTime(), // current time-->
+                                            <!--y = Math.random();-->
+                                    <!--series1.addPoint([x, y], true, true);-->
+                                <!--}, 2000);-->
+
+
+                            <!--}-->
+                        <!--}-->
+
+                    <!--},-->
+                    <!--title: {-->
+                        <!--text: 'Plant AAA Machine 1'-->
+                    <!--},-->
+                    <!--legend: {-->
+                        <!--layout: 'vertical',-->
+                        <!--align: 'left',-->
+                        <!--verticalAlign: 'top',-->
+                        <!--x: 150,-->
+                        <!--y: 100,-->
+                        <!--floating: true,-->
+                        <!--borderWidth: 1,-->
+                        <!--backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'-->
+                    <!--},-->
+                    <!--xAxis: {-->
+                        <!--type: "datetime",-->
+                        <!--plotBands: [{ // visualize the weekend-->
+                            <!--from: 4.5,-->
+                            <!--to: 6.5,-->
+                            <!--color: 'rgba(68, 170, 213, .2)'-->
+                        <!--}]-->
+                    <!--},-->
+                    <!--yAxis: {-->
+                        <!--title: {-->
+                            <!--text: 'Percentage'-->
+                        <!--}-->
+                    <!--},-->
+                    <!--tooltip: {-->
+                        <!--shared: true,-->
+                        <!--valueSuffix: ' units'-->
+                    <!--},-->
+                    <!--credits: {-->
+                        <!--enabled: false-->
+                    <!--},-->
+                    <!--plotOptions: {-->
+                        <!--areaspline: {-->
+                            <!--fillOpacity: 0.5-->
+                        <!--}-->
+                    <!--},-->
+                    <!--series: [-->
+                        <!--{-->
+                            <!--name: 'Predictive',-->
+                            <!--data: (function () {-->
+                                <!--// generate an array of random data-->
+                                <!--var data = [],-->
+                                        <!--time = (new Date()).getTime(),-->
+                                        <!--i;-->
+
+                                <!--for (i = -19; i <= 0; i += 1) {-->
+                                    <!--data.push({-->
+                                        <!--x: time + i * 1000,-->
+                                        <!--y: Math.random()-->
+                                    <!--});-->
+                                <!--}-->
+                                <!--return data;-->
+                            <!--}())-->
+                        <!--}]-->
+                <!--});-->
+            <!--});-->
+        <!--}-->
+    <!--}-->
+    <!--function Both() {-->
+        <!--if (document.Form1.checkbox1.value == 'Both') {-->
+
+            <!--$(function () {-->
+                <!--$('#container3').highcharts({-->
+                    <!--chart: {-->
+                        <!--type: 'areaspline',-->
+                        <!--events: {-->
+                            <!--load: function () {-->
+
+                                <!--// set up the updating of the chart each second-->
+
+                                <!--var series1 = this.series[0];-->
+                                <!--setInterval(function () {-->
+                                    <!--var x = (new Date()).getTime(), // current time-->
+                                            <!--y = Math.random();-->
+                                    <!--series1.addPoint([x, y], true, true);-->
+                                <!--}, 2000);-->
+                                <!--var series2 = this.series[1];-->
+                                <!--setInterval(function () {-->
+                                    <!--var x = (new Date()).getTime(), // current time-->
+                                            <!--y = Math.random();-->
+                                    <!--series2.addPoint([x, y], true, true);-->
+                                <!--}, 2000);-->
+
+                            <!--}-->
+                        <!--}-->
+
+                    <!--},-->
+                    <!--title: {-->
+                        <!--text: 'Plant AAA Machine 1'-->
+                    <!--},-->
+                    <!--legend: {-->
+                        <!--layout: 'vertical',-->
+                        <!--align: 'left',-->
+                        <!--verticalAlign: 'top',-->
+                        <!--x: 150,-->
+                        <!--y: 100,-->
+                        <!--floating: true,-->
+                        <!--borderWidth: 1,-->
+                        <!--backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'-->
+                    <!--},-->
+                    <!--xAxis: {-->
+                        <!--type: "datetime",-->
+                        <!--plotBands: [{ // visualize the weekend-->
+                            <!--from: 4.5,-->
+                            <!--to: 6.5,-->
+                            <!--color: 'rgba(68, 170, 213, .2)'-->
+                        <!--}]-->
+                    <!--},-->
+                    <!--yAxis: {-->
+                        <!--title: {-->
+                            <!--text: 'Percentage'-->
+                        <!--}-->
+                    <!--},-->
+                    <!--tooltip: {-->
+                        <!--shared: true,-->
+                        <!--valueSuffix: ' units'-->
+                    <!--},-->
+                    <!--credits: {-->
+                        <!--enabled: false-->
+                    <!--},-->
+                    <!--plotOptions: {-->
+                        <!--areaspline: {-->
+                            <!--fillOpacity: 0.5-->
+                        <!--}-->
+                    <!--},-->
+                    <!--series: [{-->
+                        <!--name: 'Anomaly',-->
+                        <!--data: (function () {-->
+                            <!--// generate an array of random data-->
+                            <!--var data = [],-->
+                                    <!--time = (new Date()).getTime(),-->
+                                    <!--i;-->
+
+                            <!--for (i = -19; i <= 0; i += 1) {-->
+                                <!--data.push({-->
+                                    <!--x: time + i * 1000,-->
+                                    <!--y: Math.random()-->
+                                <!--});-->
+                            <!--}-->
+                            <!--return data;-->
+                        <!--}())-->
+                    <!--},-->
+                        <!--{-->
+                            <!--name: 'Predictive',-->
+                            <!--data: (function () {-->
+                                <!--// generate an array of random data-->
+                                <!--var data = [],-->
+                                        <!--time = (new Date()).getTime(),-->
+                                        <!--i;-->
+
+                                <!--for (i = -19; i <= 0; i += 1) {-->
+                                    <!--data.push({-->
+                                        <!--x: time + i * 1000,-->
+                                        <!--y: Math.random()-->
+                                    <!--});-->
+                                <!--}-->
+                                <!--return data;-->
+                            <!--}())-->
+                        <!--}]-->
+                <!--});-->
+            <!--});-->
+
+        <!--}-->
+
+    <!--}-->
+
+    <!--//]]>-->
+<!--</script> -->
